@@ -11,3 +11,4 @@ Midi to trigger Arduino
 * 1 sortie clock à 24ppqn
 * 1 sortie clock divisible
 
+## Schémas :
