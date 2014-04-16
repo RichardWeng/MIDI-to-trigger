@@ -1,5 +1,6 @@
 MIDI-to-trigger
 ===============
 
-Arduino midi to trigger
- blabla
+Midi to trigger Arduino
+
+# Fonctionnalités :
