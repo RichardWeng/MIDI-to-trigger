@@ -41,19 +41,69 @@ Janvier 2014
 *****************************************************************************/
 
 //PINS========================================================================
+
 //Pins connectes aux pins ST_CP des 74HC595
 const int sorties_latchPin = 3;
 const int affichage_latchPin = A1;
+
 //Pins connectes aux pins SH_CP des 74HC595
 const int sorties_clockPin = 4;
 const int affichage_clockPin = A2;
+
 //Pins connectes aux pins DS des 74HC595
 const int sorties_dataPin = 5;
 const int affichage_dataPin = A0;
- 
+
+//Pins utilises pour le multiplexage des afficheurs
 const int affichage_digit1 = A5;
 const int affichage_digit2 = A4;
 
+//ENUMS=======================================================================
+
+enum Modes {Trigger, Gate};
+enum LearnModes {Learn, Auto, Off};
+
+//PARAMETRES==================================================================
+
+typedef struct{
+
+  //apprentissage des notes
+  LearnModes NotesLearn
+
+  //apprentissage du canal midi
+  boolean CanalLearn
+
+  //canal midi selectionne
+  int Canal;
+
+  //1->12:triggers, 13:Accent, 14:Play/Stop, 15:Clk div, 16: Clk
+  //mode gate ou trigger pour chaque sortie
+  Modes ModeSortie[16];
+
+  //duree du trigger pour chaque sortie
+  int DureeSortie[16];
+
+  //Triggers (1->12) : note autorisee
+  //Accent : velocite seuil
+  //Play/Stop : NC 
+  //Div : facteur de division 
+  //Clk : NC
+  int ParamSortie[16];
+
+}structParametres;
+
+structParametres parametres;
+
+//VARIABLES TEMPORELLES=======================================================
+
+//taux de rafraichissement de l'affichage (en ms)
+byte refreshAffichage = 10
+
+//Utilise pour le rafraichissement des sorties
+unsigned long millisTriggers[16];
+
+//Utilise pour le rafraichissement de l'affichage
+unsigned long millisAffichage;
 
 /*****************************************************************************
         FONCTIONS
@@ -86,14 +136,14 @@ void handleNoteOff(byte inChannel, byte inNote, byte inVelocity)
 *****************************************************************************/
 void setup() {
 
-	pinMode(sorties_latchPin, OUTPUT);
-	pinMode(sorties_clockPin, OUTPUT);
-	pinMode(sorties_dataPin, OUTPUT);
-	pinMode(affichage_latchPin, OUTPUT);
-	pinMode(affichage_clockPin, OUTPUT);
-	pinMode(affichage_dataPin, OUTPUT);
-	pinMode(affichage_digit1, OUTPUT);
-	pinMode(affichage_digit2, OUTPUT);
+  pinMode(sorties_latchPin, OUTPUT);
+  pinMode(sorties_clockPin, OUTPUT);
+  pinMode(sorties_dataPin, OUTPUT);
+  pinMode(affichage_latchPin, OUTPUT);
+  pinMode(affichage_clockPin, OUTPUT);
+  pinMode(affichage_dataPin, OUTPUT);
+  pinMode(affichage_digit1, OUTPUT);
+  pinMode(affichage_digit2, OUTPUT);
 
     midiBench.setHandleNoteOn(handleNoteOn);
     midiBench.setHandleNoteOff(handleNoteOff);
@@ -109,5 +159,5 @@ void setup() {
         MAIN
 *****************************************************************************/
 void loop() {
-	midiBench.read();
+  midiBench.read();
 }
