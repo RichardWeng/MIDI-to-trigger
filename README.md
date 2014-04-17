@@ -41,8 +41,12 @@ _**Développement en cours**_
 * (Pour le développement) *
 
 http://arduinomidilib.fortyseveneffects.com/
+
 http://ralphniels.nl/arduino/using-enums-to-make-your-code-more-readable/
+
 http://projectgus.com/2010/07/eeprom-access-with-arduino/
+
 http://fr.openclassrooms.com/informatique/cours/les-pointeurs-sur-fonctions-1
+
 http://playground.arduino.cc/Main/MIDILibraryCallbacks
 
