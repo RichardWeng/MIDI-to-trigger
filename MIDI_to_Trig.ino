@@ -67,28 +67,36 @@ enum LearnModes {Learn, Auto, Off};
 
 typedef struct{
 
+<<<<<<< HEAD
   //apprentissage des notes
   LearnModes NotesLearn;
 
   //apprentissage du canal midi
   boolean CanalLearn;
+=======
+    //apprentissage des notes
+    LearnModes NotesLearn;
 
-  //canal midi selectionne
-  int Canal;
+    //apprentissage du canal midi
+    boolean CanalLearn;
+>>>>>>> 79aa2e7730db28fa12da85da789b7eccc4edbdda
 
-  //1->12:triggers, 13:Accent, 14:Play/Stop, 15:Clk div, 16: Clk
-  //mode gate ou trigger pour chaque sortie
-  Modes ModeSortie[16];
+    //canal midi selectionne
+    int Canal;
 
-  //duree du trigger pour chaque sortie
-  int DureeSortie[16];
+    //1->12:triggers, 13:Accent, 14:Play/Stop, 15:Clk div, 16: Clk
+    //mode gate ou trigger pour chaque sortie
+    Modes ModeSortie[16];
 
-  //Triggers (1->12) : note autorisee
-  //Accent : velocite seuil
-  //Play/Stop : NC 
-  //Div : facteur de division 
-  //Clk : NC
-  int ParamSortie[16];
+    //duree du trigger pour chaque sortie
+    int DureeSortie[16];
+
+    //Triggers (1->12) : note autorisee
+    //Accent : velocite seuil
+    //Play/Stop : NC 
+    //Div : facteur de division 
+    //Clk : NC
+    int ParamSortie[16];
 
 }structParametres;
 
@@ -136,14 +144,14 @@ void handleNoteOff(byte inChannel, byte inNote, byte inVelocity)
 *****************************************************************************/
 void setup() {
 
-  pinMode(sorties_latchPin, OUTPUT);
-  pinMode(sorties_clockPin, OUTPUT);
-  pinMode(sorties_dataPin, OUTPUT);
-  pinMode(affichage_latchPin, OUTPUT);
-  pinMode(affichage_clockPin, OUTPUT);
-  pinMode(affichage_dataPin, OUTPUT);
-  pinMode(affichage_digit1, OUTPUT);
-  pinMode(affichage_digit2, OUTPUT);
+    pinMode(sorties_latchPin, OUTPUT);
+    pinMode(sorties_clockPin, OUTPUT);
+    pinMode(sorties_dataPin, OUTPUT);
+    pinMode(affichage_latchPin, OUTPUT);
+    pinMode(affichage_clockPin, OUTPUT);
+    pinMode(affichage_dataPin, OUTPUT);
+    pinMode(affichage_digit1, OUTPUT);
+    pinMode(affichage_digit2, OUTPUT);
 
     midiBench.setHandleNoteOn(handleNoteOn);
     midiBench.setHandleNoteOff(handleNoteOff);
