@@ -1,0 +1,319 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"compte",
+				"compteur"
+			],
+			[
+				"di",
+				"digitalWrite	Arduino digitalWrite"
+			],
+			[
+				"seri",
+				"seriOut"
+			],
+			[
+				"affi",
+				"AFFICHAGE"
+			],
+			[
+				"Af",
+				"AFFICHAGE"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "MIDI_to_Trig.ino",
+			"settings":
+			{
+				"buffer_size": 4391,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Arduino Ready\nNote on  : 11 : 53 : 1\nNote off : 11 : 0 : 1\n",
+			"settings":
+			{
+				"buffer_size": 62,
+				"line_ending": "Windows",
+				"name": "Serial Monitor - COM17"
+			}
+		},
+		{
+			"contents": "/*\nMIDI to Trig\nLaurent Calvignac\nJanvier 2014\n \n * Ce programme est un programme libre ;\n * vous pouvez le redistribuer et/ou le modifier\n * dans les termes de la licence GNU GPL, comme publiée par\n * la Free Software Foundation; soit dans la version 3 de la license, ou\n * (suivant votre préférence) dans une version ultérieure.\n \n * This program is free software; you can redistribute it and/or modify\n * it under the terms of the GNU GPL as published by\n * the Free Software Foundation; either version 3 of the License, or\n * (at your option) any later version.\n \n*/\n \n/*\n \n  sorties 1 a 12 : triggers/gates\n  sortie 13 : accent (velocite > )\n  sortie 14 : play/stop\n  sortie 15 : clock divisee\n  sortie 16 : clock 1:1\n \n*/\n \n//#include <string.h>\n \n/*****************************************************************************\n        VARIABLES\n*****************************************************************************/\n \n//PINS========================================================================\n//Pins connectes aux pins ST_CP des 74HC595\nconst int sorties_latchPin = 3;\nconst int affichage_latchPin = A1;\n//Pins connectes aux pins SH_CP des 74HC595\nconst int sorties_clockPin = 4;\nconst int affichage_clockPin = A2;\n//Pins connectes aux pins DS des 74HC595\nconst int sorties_dataPin = 2;\nconst int affichage_dataPin = A0;\n \nconst int affichage_digit1 = A5;\nconst int affichage_digit2 = A4;\n \n//MENUS=======================================================================\ntypedef struct{\n  char nom[3];\n  int id_parent;\n  int valeur;\n}menuItem;\n \n//PARAMETRES==================================================================\nbyte refreshAffichage = 10;  //taux de rafraichissement de l'affichage (en ms)\nboolean notes_learn = true;  //activer ou desactiver l'apprentissage de la note de base (actif par defaut)\nboolean canal_learn = true;  //activer ou desactiver l'apprentissage du canal midi (actif par defaut)\nbyte canal_canal = 0;  //canal midi selectionne\n//                          1   2   3   4   5   6   7   8   9   10  11  12  Acc P/S Div Clk     Facteurs de division : 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 96\nbyte sorties_valeur[16] =  {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  80, 0,  12, 0  }; //Triggers : notes autorisees / Accent : velocite seuil / P/S : NC / Div : facteur de division /Clk : NC\nbyte sorties_mode[16]   =  {1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0,  1,  1,  1  }; //mode gate (0) ou trigger (1) pour chaque sortie (trigger par defaut, sauf pour l'accent)\nbyte sorties_duree[16]  =  {10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 }; //duree du trigger pour chaque sortie (10ms par defaut)\n \n//============================================================================\nunsigned long millisPrecedent[16];\nunsigned long millisAffichage;\n \nbyte\noctet_entrant = 0,  //octet lu sur le port MIDI\nprochain_byte = 0,\nrunning_status = 0,\nnumero_note = 0,\nvelocite = 0;\n \nbyte compteurTic = 0;\n \n//AFFICHAGE===================================================================\ntypedef struct{\n  byte segments;\n  char symbole;\n}digits;\n \nbyte affichage_digits[2] = {0};  //donnees a afficher sur les digits\n \nenum sortie {TRIGGERS, AFFICHAGE};  //la sortie sur laquelle on envoie des donnees\nenum bouton_presse {ENTREE, ECHAP}; //le bouton qu'on vient de presser\n \nword etat_sorties = 0 ;\n \n//BOUTONS=====================================================================\nbyte\netat_bouton[4], //0 = bouton entree / 1 = bouton echap / 2 & 3 = entrees encodeur\ndernier_etat_bouton[4], //etat precedent du bouton\nnouvel_appui[4],  //nouvel appui sur un bouton ou interaction avec l'encodeur\ntempsDebounce = 20;\nunsigned long bouton_millisPrecedent[4];  //temps de debouncing pour les boutons et l'encodeur\n \n \nboolean\nnouvelle_note = false,  //indicateur de reception d'une nouvelle note\nnouveau_transport = false,  //indicateur de reception d'un nouveau message de transport\nclock_tic = false,  //tic de synchronisation\nplay = false,  //statut play/stop (stop au demarrage)\nlearn_ok = false;  //si on a fini l'apprentissage\n \nbyte\nMIDI_noteon = 144,  //commande note on\nMIDI_noteoff = 128;  //commande note on\nconst byte\nMIDI_clock = 248,  //commande midi clock\nMIDI_play = 250,  //commande midi play\nMIDI_continue = 251,  //commande midi continue\nMIDI_stop = 252;  //commande midi stop\n \n/*****************************************************************************\n        SETUP\n*****************************************************************************/\n \nvoid setup() {\n \n//MENU========================================================================\nmenuItem menu[20];\n  //Clock division\n    strncpy(menu[0].nom, \"di\", 3);\n    menu[0].id_parent = -1;\n    menu[0].valeur = 24;  //1->96\n  //Root note\n    strncpy(menu[1].nom, \"no\", 3);\n    menu[1].id_parent = -1;\n    menu[1].valeur = 0;\n  //Canal\n    strncpy(menu[2].nom, \"ch\", 3);\n    menu[2].id_parent = -1;\n    menu[2].valeur = 0; //-1 = learn / 1->16\n  //Start / Stop;\n    strncpy(menu[3].nom, \"St\", 3);\n    menu[3].id_parent = -1;\n    menu[3].valeur = 0; //0 = trig / 1 = gate\n \n \n/*enum menus {\nHOME,\nCLOCK,\nCLOCK_DIV,\nNOTE,\nNOTE_SELEC,\nCANAL,\nCANAL_SELEC,\nSTART,\nSTART_SELEC,\n  SORTIES,\n  SORTIES_MODE,\n  SORTIES_MODE_SELEC,\n  SORTIES_MODE_SELEC_MODE,\n  SORTIES_DUREE,\n  SORTIES_DUREE_SELEC,\n  SORTIES_DUREE_SELEC_DUREE,\n  ACCENT,\n  ACCENT_SELEC,\n  LEARN\n};*/\n \n//AFFICHAGE===================================================================\n/*\n \n AAAA\nF    B\nF    B\n GGGG\nE    C\nE    C\n DDDD .\n \n*/\n \ndigits tableauDigits[40];\n  //                                                             GFABDC.E\n  tableauDigits[0].symbole  = '0'; tableauDigits[0].segments  = B01111101;\n  tableauDigits[1].symbole  = '1'; tableauDigits[1].segments  = B00010100;\n  tableauDigits[2].symbole  = '2'; tableauDigits[2].segments  = B10111001;\n  tableauDigits[3].symbole  = '3'; tableauDigits[3].segments  = B10111100;\n  tableauDigits[4].symbole  = '4'; tableauDigits[4].segments  = B11010100;\n  tableauDigits[5].symbole  = '5'; tableauDigits[5].segments  = B11101100;\n  tableauDigits[6].symbole  = '6'; tableauDigits[6].segments  = B11101101;\n  tableauDigits[7].symbole  = '7'; tableauDigits[7].segments  = B00110100;\n  tableauDigits[8].symbole  = '8'; tableauDigits[8].segments  = B11111101;\n  tableauDigits[9].symbole  = '9'; tableauDigits[9].segments  = B11111100;\n  tableauDigits[10].symbole = 'a'; tableauDigits[10].segments = B10111101;\n  tableauDigits[11].symbole = 'b'; tableauDigits[11].segments = B11001101;\n  tableauDigits[12].symbole = 'c'; tableauDigits[12].segments = B10001001;\n  tableauDigits[13].symbole = 'd'; tableauDigits[13].segments = B10011101;\n  tableauDigits[14].symbole = 'E'; tableauDigits[14].segments = B11101001;\n  tableauDigits[15].symbole = 'F'; tableauDigits[15].segments = B11100001;\n  tableauDigits[16].symbole = 'g'; tableauDigits[16].segments = B11111100;\n  tableauDigits[17].symbole = 'h'; tableauDigits[17].segments = B11000101;\n  tableauDigits[18].symbole = 'i'; tableauDigits[18].segments = B00000001;\n  tableauDigits[19].symbole = 'J'; tableauDigits[19].segments = B00011100;\n  tableauDigits[20].symbole = 'K'; tableauDigits[20].segments = B11010101;\n  tableauDigits[21].symbole = 'L'; tableauDigits[21].segments = B01001001;\n  tableauDigits[22].symbole = 'M'; tableauDigits[22].segments = B01110101;\n  tableauDigits[23].symbole = 'n'; tableauDigits[23].segments = B10000101;\n  tableauDigits[24].symbole = 'o'; tableauDigits[24].segments = B10001101;\n  tableauDigits[25].symbole = 'p'; tableauDigits[25].segments = B11110001;\n  tableauDigits[26].symbole = 'q'; tableauDigits[26].segments = B11110100;\n  tableauDigits[27].symbole = 'r'; tableauDigits[27].segments = B10000001;\n  tableauDigits[28].symbole = 's'; tableauDigits[28].segments = B11101100;\n  tableauDigits[29].symbole = 't'; tableauDigits[29].segments = B11001001;\n  tableauDigits[30].symbole = 'U'; tableauDigits[30].segments = B01011101;\n  tableauDigits[31].symbole = 'v'; tableauDigits[31].segments = B00001101;\n  tableauDigits[32].symbole = 'W'; tableauDigits[32].segments = B00101101;\n  tableauDigits[33].symbole = 'X'; tableauDigits[33].segments = B11010101;\n  tableauDigits[34].symbole = 'Y'; tableauDigits[34].segments = B11011100;\n  tableauDigits[35].symbole = 'Z'; tableauDigits[35].segments = B10111001;\n  tableauDigits[36].symbole = '.'; tableauDigits[36].segments = B00000010;\n  tableauDigits[37].symbole = '-'; tableauDigits[37].segments = B10000000;\n  tableauDigits[38].symbole = 'l'; tableauDigits[38].segments = B01010101; //double L\n  tableauDigits[39].symbole = '/'; tableauDigits[39].segments = B00000000; //vide\n \n \n  //=====================================DEBUG\n  pinMode(2, OUTPUT);\n  pinMode(3, OUTPUT);\n  pinMode(4, OUTPUT);\n  pinMode(5, OUTPUT);\n  pinMode(6, OUTPUT);\n  pinMode(7, OUTPUT);\n  pinMode(8, OUTPUT);\n  pinMode(9, OUTPUT);\n  pinMode(10, OUTPUT);\n  pinMode(11, OUTPUT);\n  pinMode(12, OUTPUT);\n  pinMode(13, OUTPUT);\n  pinMode(A0, OUTPUT);\n  pinMode(A1, OUTPUT);\n  pinMode(A2, OUTPUT);\n  pinMode(A3, OUTPUT);\n  pinMode(A4, OUTPUT);\n  pinMode(A5, OUTPUT);\n \n  //affichage_digits[0] = digits[10];\n  //affichage_digits[1] = digits[38];  //affiche \"all\"\n  //=====================================DEBUG\n \n  Serial.begin(31250);\n  //TODO ici, recuperer les parametres dans la memoire\n  if (canal_learn || notes_learn) {  //si au moins l'un des deux modes learn est actif\n    MIDI_learn();\n  }\n  else {\n    //recuperer la valeur du canal dans la memoire\n  }\n \n  MIDI_noteon = MIDI_noteon + canal_canal;\n  MIDI_noteoff = MIDI_noteoff + canal_canal;\n}\n \n/*****************************************************************************\n        MAIN\n*****************************************************************************/\n \nvoid loop() {\n  lecture_MIDI();\n  if (clock_tic) {  //si on a recu une midi clock\n    sortie_clock();\n  }\n  else if (nouveau_transport) {  //si on a recu un nouveau message de transport\n    sortie_transport();\n  }\n  else if (nouvelle_note) {  //si on a recu une nouvelle note\n    sortie_note();\n  }\n  verifier_delais();\n     \n  //=====================================DEBUG\n \n  //=====================================DEBUG\n \n}\n \n/*****************************************************************************\n        FONCTIONS\n*****************************************************************************/\n \n//LECTURE MIDI================================================================\nvoid lecture_MIDI() {\n  if (Serial.available()){\n    octet_entrant = Serial.read();\n     \n    if (octet_entrant == MIDI_noteon || octet_entrant == MIDI_noteoff) {  //si c'est une commande note on ou note off\n      running_status = octet_entrant;  //on definit le statut en cours\n      prochain_byte++;  //on incremente le numero du prochain byte a recevoir\n    }\n     \n    else if (octet_entrant < 128) {  //si c'est une valeur et qu'on est en running status note on\n      switch (prochain_byte)\n      {\n        case 1:\n          numero_note = octet_entrant;\n          prochain_byte++;\n          break;\n           \n        case 2:\n          velocite = octet_entrant;\n          nouvelle_note = true;  //marqueur indiquant qu'on a reçu une nouvelle note\n          prochain_byte = 0;\n          break;\n      }\n    }\n     \n    else if (octet_entrant == MIDI_clock) {  //si c'est un MIDI clock\n      clock_tic = true;\n      //digitalWrite(11, HIGH);\n      //delay(50);\n      //digitalWrite(11, LOW);\n    }\n     \n    else if (octet_entrant >= 250 && octet_entrant <= 252) {  //si c'est un message de transport\n      switch(octet_entrant)\n      {\n        case MIDI_play:  //message play\n          if(!play) {  //si on n'est pas deja en mode play\n            nouveau_transport = true;\n            play = true;\n          }\n          break;\n           \n        case MIDI_continue:  //message continue\n          if(!play) {  //si on n'est pas deja en mode play\n            nouveau_transport = true;\n            play = true;\n          }\n          break;\n           \n        case MIDI_stop:  //message stop\n          if(play) {  //si on n'est pas deja en mode stop\n            nouveau_transport = true;\n            play = false;\n          }\n          break;\n      }\n    }\n     \n  }\n}\n \n//MIDI LEARN==================================================================\n \nvoid MIDI_learn()  {\n  do\n  {\n    //=====================================DEBUG\n    digitalWrite(13, HIGH);\n    delay(10);\n    digitalWrite(13, LOW);\n    //=====================================DEBUG\n   \n    if (Serial.available()){\n      octet_entrant = Serial.read();\n       \n      if (octet_entrant >= 128 && octet_entrant <= 159) {  //si c'est une commande note on ou note off\n        running_status = octet_entrant;  //on definit le statut en cours\n        if (canal_learn) {  //si on a active l'apprentissage du canal midi\n          canal_canal = octet_entrant & 0x0F;\n        }\n        prochain_byte++;  //on incremente le numero du prochain byte a recevoir\n      }\n     \n      else if (octet_entrant < 128) {  //si c'est une valeur\n        switch (prochain_byte)\n        {\n          case 1:\n            numero_note = octet_entrant;\n            prochain_byte++;\n            break;\n           \n          case 2:\n            velocite = octet_entrant;\n            nouvelle_note = true;  //marqueur indiquant qu'on a reçu une nouvelle note\n            learn_ok = true;  //on a fini l'apprentissage\n            prochain_byte = 0;\n            break;\n        }\n      }\n     \n      else if (octet_entrant >= 160 && octet_entrant <= 239) {  //c'est un autre message contenant le numero du canal\n        if (!notes_learn) {  //si on n'a pas active l'apprentissage de la note de base\n          learn_ok = true;  //on a fini l'apprentissage\n        }\n        if (canal_learn) {  //si on a active l'apprentissage du canal midi\n          canal_canal = octet_entrant & 0x0F;\n        }\n      }\n \n    }\n  }while(!learn_ok);\n  if (notes_learn) {  //si on a active l'apprentissage de la note de base\n    for(byte compteur = 0; compteur < 12; compteur++) {\n      sorties_valeur[compteur] = numero_note + compteur;\n    }\n  }\n}\n \n//SORTIES=====================================================================\n \nvoid sortie_clock() {\n    clock_tic = false;\n    bitSet(etat_sorties, 16);\n    millisPrecedent[16] = millis();\n    if(compteurTic == 0) {\n      bitSet(etat_sorties, 15);\n      millisPrecedent[15] = millis();\n      compteurTic = sorties_valeur[15];\n    }\n    compteurTic--;\n    seriOut(TRIGGERS, etat_sorties);\n}\n \nvoid sortie_transport() {\n  nouveau_transport = false;\n  bitWrite(etat_sorties, 14, !bitRead(etat_sorties, 14));  //on inverse l'etat de cette sortie\n  compteurTic = 0;\n  if(sorties_mode[14]) {  //si on est en mode trig\n    millisPrecedent[14] = millis();\n  }\n  seriOut(TRIGGERS, etat_sorties);\n}\n \nvoid sortie_note() {\n \n  nouvelle_note = false;\n \n  for(byte compteur = 0; compteur < 12; compteur++) {\n    if(sorties_valeur[compteur] == numero_note) {  //si c'est une des 8 notes assignees a une sortie\n      if(running_status == MIDI_noteon && velocite > 0) {  //si on a bien affaire a une note on\n        bitSet(etat_sorties, compteur);\n        seriOut(TRIGGERS, etat_sorties);  //on envoie cette donnee sur le port serie des sorties\n        if(sorties_mode[compteur]) {  //si cette sortie est en mode trig\n          millisPrecedent[compteur] = millis(); //on enregistre le temps actuel pour pouvoir eteindre cette sortie en temps voulu\n        }\n      }\n      else if(!sorties_mode[compteur]) {  //sinon c'est une note off et on ne la prend en compte que si on est en mode gate\n        bitClear(etat_sorties, compteur);\n        seriOut(TRIGGERS, etat_sorties); //on envoie cette donnee sur le port serie des sorties\n      }\n    }\n  }\n}\n \n//SORTIE SERIE================================================================\n \nbyte seriOut(byte sortie, byte donnees) {\n  byte dataPin;\n  byte clockPin;\n  byte latchPin;\n  switch (sortie) {\n      case TRIGGERS:\n        dataPin = sorties_dataPin;\n        clockPin = sorties_clockPin;\n        latchPin = sorties_latchPin;\n        break;\n      case AFFICHAGE:\n        dataPin = affichage_dataPin;\n        clockPin = affichage_clockPin;\n        latchPin = affichage_latchPin;\n        break;\n  }\n  digitalWrite(latchPin, LOW);\n  if(sortie == TRIGGERS){\n    shiftOut(dataPin, clockPin, MSBFIRST, (donnees >> 8));      \n  }\n  shiftOut(dataPin, clockPin, MSBFIRST, donnees);\n  digitalWrite(latchPin, HIGH);\n}\n \n//DELAIS======================================================================\n \nvoid verifier_delais() {\n    unsigned long millisActuel = millis();\n    //extinction des sorties\n    for(int compteur=0; compteur<16; compteur++){\n        //si on a depasse le temps et que la sortie est en mode trigger et qu'elle est actuellement active :\n        if((millisActuel - millisPrecedent[compteur]) > sorties_duree[compteur] && sorties_mode[compteur] == 1 && bitRead(etat_sorties, compteur) == 1){\n            bitClear(etat_sorties, compteur); //on passe cette sortie en off\n            seriOut(TRIGGERS, etat_sorties); //on envoie cette donnee sur le port serie des sorties\n        }\n    }\n    //rafraichissement de l'affichage\n    if(millisActuel - millisAffichage > refreshAffichage){\n        affichage();\n    }\n}\n \n//AFFICHAGE===================================================================\n \nvoid affichage() {\n    byte pin_digitActif;\n    byte pin_digitInactif;\n    byte donnees;\n \n    //On active le digit qui n'etait pas actif lors du rafraichissement precedent\n    if(digitalRead(affichage_digit1)){\n        pin_digitActif = affichage_digit2;\n        pin_digitInactif = affichage_digit1;\n        donnees = affichage_digits[1];\n    }\n    else{\n        pin_digitActif = affichage_digit1;\n        pin_digitInactif = affichage_digit2;\n        donnees = affichage_digits[0];\n    }\n \n    digitalWrite(pin_digitInactif, LOW);  //desactivation du digit precedent\n    seriOut(AFFICHAGE, donnees);  //transmission des donnees sur le port AFFICHAGE\n    digitalWrite(pin_digitActif, HIGH); //activation du digit courant\n    millisAffichage = millis();\n}\n \n//CREATION DIGITS=============================================================\n \nvoid creation_digits(char caracteres[], int nbCaracteres) {\n  //TODO\n  //ici, rechercher correspondance entre les caracteres en entree et le\n  //tableau des digits pour en deduire le numero du digit a afficher.\n  //Penser a afficher du vide devant lorsqu'il n'y a qu'un seul digit.\n  //Un truc comme ca (mais il faut utiliser strcmp()):\n  /*\n  int i = 0 ;\n  while(strcmp(caracteres[1], digits[i]) != 0) {\n    i++;\n  }\n  affichage_digit1 = i;\n  int i = 0 ;\n  while(caracteres[2] != digits[i]) {\n    i++;\n  }\n  affichage_digit2 = i;\n  */\n}\n \n//ENTREE BOUTON===============================================================\n \n//TODO\n/*\nfor(int compteur=0; compteur<4; compteur++){\n  unsigned long millisActuel = millis();  //on enregistre le temps actuel\n  //lire l'entree du bouton-poussoir\n  byte lecture = digitalRead(buttonPin);\n \n  // comparer l'etat du bouton a son etat precedent\n  if (lecture != dernier_etat_bouton[compteur]) { //si le statut du bouton a change\n    bouton_millisPrecedent = millisActuel;  //on enregistre le temps actuel\n  }\n \n  if((millisActuel - bouton_millisPrecedent) > tempsDebounce){\n    //si l'etat du bouton a change\n    if(lecture != etat_bouton[compteur]) {\n      etat_bouton[compteur] = lecture;\n \n      //si le bouton est presse\n      if(etat_bouton[compteur] == true) {\n        nouvel_appui[compteur] = true;\n        //TODO reste du code ici\n      }    \n    }      \n  }\n  dernier_etat_bouton[compteur] = lecture;\n   \n}\n*/",
+			"file": "Documents/MIDI_to_Trig_0_7/MIDI_to_Trig_0_7.ino",
+			"file_size": 19654,
+			"file_write_time": 130420728081514636,
+			"settings":
+			{
+				"buffer_size": 19648,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/MIDI_to_Trig.sublime-project",
+		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/MIDI_to_Trig.ino",
+		"/C/Users/Laurent.WENG/AppData/Local/Temp/Temp1_Arduino_MIDI_Library_v4.0.zip/MIDI/midi_Defs.h",
+		"/D/Laurent/Mes Documents/Dropbox/Boulot/MIDI to Trig/MIDI_to_Trig_0_7/MIDI_to_Trig_0_7.ino",
+		"/D/Laurent/Mes Documents/Dropbox/Boulot/MIDI to Trig/MIDI_to_Trig_b1_0/MIDI_to_Trig_b1_0.ino",
+		"/D/Laurent/Mes Documents/Arduino/libraries/MIDI/examples/MIDI_Bench/MIDI_Bench.ino",
+		"/D/Laurent/Mes Documents/Travaux/20140201_SiteLingyi/Indexhibit/ndxzstudio/defaults.php",
+		"/D/Laurent/Mes Images/50SF/6830449.jpg"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"inNote",
+			"in",
+			"inNote",
+			"sorties_lat",
+			"pin",
+			"pin_digit2",
+			"pin_digit1",
+			"seriOut(0, etat_sorties);//on envoie cette donnee sur le port serie des sorties",
+			"          seriOut(0, etat_sorties);//on envoie cette donnee sur le port serie des sorties\n",
+			");//",
+			"seriOut(0, etat_sorties);",
+			"TRIGGERS"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "MIDI_to_Trig.ino",
+					"settings":
+					{
+						"buffer_size": 4391,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4391,
+								4391
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Stino-master/Arduino.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 1,
+					"settings":
+					{
+						"buffer_size": 62,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								62,
+								62
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "Documents/MIDI_to_Trig_0_7/MIDI_to_Trig_0_7.ino",
+					"settings":
+					{
+						"buffer_size": 19648,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Stino-master/Arduino.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.MIDI-to-trigger":
+	{
+		"height": 100.0
+	},
+	"output.MIDI_to_Trig_0_1":
+	{
+		"height": 100.0
+	},
+	"output.MIDI_to_Trig_0_2_ino":
+	{
+		"height": 100.0
+	},
+	"output.MIDI_to_Trig_0_7":
+	{
+		"height": 100.0
+	},
+	"output.MIDI_to_Trig_b1_0":
+	{
+		"height": 100.0
+	},
+	"output.stino_log":
+	{
+		"height": 100.0
+	},
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}
