@@ -67,19 +67,11 @@ enum LearnModes {Learn, Auto, Off};
 
 typedef struct{
 
-<<<<<<< HEAD
-  //apprentissage des notes
-  LearnModes NotesLearn;
-
-  //apprentissage du canal midi
-  boolean CanalLearn;
-=======
     //apprentissage des notes
     LearnModes NotesLearn;
 
     //apprentissage du canal midi
     boolean CanalLearn;
->>>>>>> 79aa2e7730db28fa12da85da789b7eccc4edbdda
 
     //canal midi selectionne
     int Canal;
