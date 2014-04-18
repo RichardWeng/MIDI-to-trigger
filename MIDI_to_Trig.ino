@@ -130,6 +130,26 @@ void handleNoteOff(byte inChannel, byte inNote, byte inVelocity)
     Serial.println(inChannel);
 }
 
+void handleTimeCodeQuarterFrame(byte data)
+{
+    Serial.println("Time code");
+}
+
+void handleStart()
+{
+    Serial.println("Start");
+}
+
+void handleContinue()
+{
+    Serial.println("Continue");
+}
+
+void handleStop()
+{
+    Serial.println("Stop");
+}
+
 
 /*****************************************************************************
         SETUP
@@ -145,8 +165,21 @@ void setup() {
     pinMode(affichage_digit1, OUTPUT);
     pinMode(affichage_digit2, OUTPUT);
 
+//CALLBACKS===================================================================
+
+    //Callback Note on
     midiBench.setHandleNoteOn(handleNoteOn);
+    //Callback Note off 
     midiBench.setHandleNoteOff(handleNoteOff);
+    //Callback Time code
+    midiBench.setHandleTimeCodeQuarterFrame(handleTimeCodeQuarterFrame);
+    //Callback Start
+    midiBench.setHandleNoteOff(handleNoteOff);
+    //Callback Stop
+    midiBench.setHandleNoteOff(handleNoteOff);
+    //Callback Continue
+    midiBench.setHandleNoteOff(handleNoteOff);
+
     midiBench.begin(MIDI_CHANNEL_OMNI);
 
     while(!Serial);
