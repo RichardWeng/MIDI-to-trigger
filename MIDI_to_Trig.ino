@@ -68,10 +68,10 @@ enum LearnModes {Learn, Auto, Off};
 typedef struct{
 
   //apprentissage des notes
-  LearnModes NotesLearn
+  LearnModes NotesLearn;
 
   //apprentissage du canal midi
-  boolean CanalLearn
+  boolean CanalLearn;
 
   //canal midi selectionne
   int Canal;
@@ -97,7 +97,7 @@ structParametres parametres;
 //VARIABLES TEMPORELLES=======================================================
 
 //taux de rafraichissement de l'affichage (en ms)
-byte refreshAffichage = 10
+byte refreshAffichage = 10;
 
 //Utilise pour le rafraichissement des sorties
 unsigned long millisTriggers[16];
