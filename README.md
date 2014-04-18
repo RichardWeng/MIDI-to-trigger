@@ -46,4 +46,5 @@ _**Développement en cours**_
 * http://fr.openclassrooms.com/informatique/cours/les-pointeurs-sur-fonctions-1
 * http://playground.arduino.cc/Main/MIDILibraryCallbacks
 * http://www.notesandvolts.com/2013/01/fun-with-arduino-arduino-as-isp.html
+* http://blogs.bl0rg.net/netzstaub/2008/08/18/sysex-bootloader-for-avr/
 
