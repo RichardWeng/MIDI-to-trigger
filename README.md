@@ -45,4 +45,5 @@ _**Développement en cours**_
 * http://projectgus.com/2010/07/eeprom-access-with-arduino/
 * http://fr.openclassrooms.com/informatique/cours/les-pointeurs-sur-fonctions-1
 * http://playground.arduino.cc/Main/MIDILibraryCallbacks
+* http://www.notesandvolts.com/2013/01/fun-with-arduino-arduino-as-isp.html
 
