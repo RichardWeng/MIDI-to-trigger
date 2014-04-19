@@ -61,7 +61,7 @@ Janvier 2014
 //ENUMS=======================================================================
 
     enum Modes {Trigger, Gate};
-    enum LearnModes {Learn, Auto, Off};
+    enum LearnModes {Off, Learn, Auto};
     enum Ports {Triggers, Affichage};
 
 //PARAMETRES==================================================================
@@ -126,19 +126,15 @@ Janvier 2014
   boolean learnFlag = 1;
   //Sert a compter le nombre de notes deja apprises
   byte compteurNotesLearn = 0;
+  //
+
+  byte i = 0;
 
 /*****************************************************************************
         FONCTIONS
 *****************************************************************************/
   //MIDI======================================================================
     void handleNoteOn(byte inChannel, byte inNote, byte inVelocity) {
-      Serial.print("Note on");
-      Serial.print("  : ");
-      Serial.print(inNote);
-      Serial.print(" : ");
-      Serial.print(inVelocity);
-      Serial.print(" : ");
-      Serial.println(inChannel);
 
       //Si l'on doit apprendre le canal ou les notes
       if(learnFlag && (parametres.NotesLearn || parametres.CanalLearn)) {
@@ -158,15 +154,16 @@ Janvier 2014
         if(parametres.NotesLearn == Auto) {
           //On enregistre cette note et les notes consecutives dans les parametres
           for(byte compteur = 0; compteur < 12; compteur++) {
-            parametres.ParamSortie[compteur] = inNote + compteur;
+            parametres.ParamSortie[note[compteur]] = inNote + compteur;
           }
           //On a fini l'apprentissage
           learnFlag = 0;
         }
         //Sinon, l'apprentissage des notes est en mode learn, on doit les apprendre toutes une par une
         else if(parametres.NotesLearn == Learn) {
+          //Serial.println("Mode Learn");
           //On enregistre les notes dans les parametres une par une, dans l'ordre de reception
-          parametres.ParamSortie[compteurNotesLearn] = inNote;
+          parametres.ParamSortie[note[compteurNotesLearn]] = inNote;
           //on incremente le compteur
           compteurNotesLearn++;
           //Si le compteur arrive a 12, c'est qu'on a assigne une note a chaque sortie
@@ -179,29 +176,40 @@ Janvier 2014
 
       for(byte compteur=0; compteur < 12; compteur++) {
         //Si c'est une des 12 notes assignees a une sortie
-        if(parametres.ParamSortie[compteur] == inNote) {
+        if(parametres.ParamSortie[note[compteur]] == inNote) {
           //On active cette sortie
           bitSet(etat_sorties, note[compteur]);
           //Si cette sortie est en mode trigger
-          if(parametres.ModeSortie[compteur] == Trigger) {
+          if(parametres.ModeSortie[note[compteur]] == Trigger) {
             //On demarre le chrono du temps d'impulsion
-            millisTriggers[compteur] = millis();
+            millisTriggers[note[compteur]] = millis();
           }
         }
       }
+
+      if(inVelocity >= parametres.ParamSortie[accent]) {
+        bitSet(etat_sorties, accent);
+        millisTriggers[accent] = millis();
+      }
+
       //On met a jour l'etat des sorties
       seriOut(Triggers, etat_sorties);
 
     }
 
     void handleNoteOff(byte inChannel, byte inNote, byte inVelocity) {
-        Serial.print("Note off");
-        Serial.print(" : ");
-        Serial.print(inNote);
-        Serial.print(" : ");
-        Serial.print(inVelocity);
-        Serial.print(" : ");
-        Serial.println(inChannel);
+
+      for(byte compteur=0; compteur < 12; compteur++) {
+        //Si c'est une des 12 notes assignees a une sortie et que cette sortie est en mode gate
+        if(parametres.ParamSortie[note[compteur]] == inNote && parametres.ModeSortie[note[compteur]] == Gate) {
+          //On desactive cette sortie
+          bitClear(etat_sorties, note[compteur]);
+          //Si cette sortie est en mode trigger
+        }
+      }
+      //On met a jour l'etat des sorties
+      seriOut(Triggers, etat_sorties);
+
     }
 
     void handleClock() {
@@ -225,7 +233,6 @@ Janvier 2014
     }
 
     void handleStart() {
-      Serial.print("Transport : ");
       //on inverse l'etat de cette sortie
       bitWrite(etat_sorties, transport, !bitRead(etat_sorties, transport));
       //si c'est un message start
@@ -251,6 +258,20 @@ Janvier 2014
     void handleStop() {
       handleStart();
       Serial.println("Stop");
+      killNotes();
+    }
+
+    /*void handleControlChange(byte channel, byte number, byte value) {
+      if(number == 114 && value == 127) {handleStop();}
+    }*/
+
+    void killNotes() {
+      for(byte compteur=0; compteur < 12; compteur++) {
+        //On eteint toutes les notes
+        bitClear(etat_sorties, note[compteur]);
+      }
+      //On met a jour l'etat des sorties
+      seriOut(Triggers, etat_sorties);
     }
 
   //DELAIS====================================================================
@@ -327,6 +348,9 @@ void setup() {
     //Callback Continue
     midiBench.setHandleStop(handleStop);
 
+    //Callback CC
+    //midiBench.setHandleControlChange(handleControlChange);
+
   //PORTS SERIE===============================================================
 
     //Midi
@@ -337,21 +361,26 @@ void setup() {
     Serial.begin(115200);
     Serial.println("Arduino Ready");
 
-  //DEBUG=====================================================================
-  parametres.CanalLearn = 1;
-  parametres.NotesLearn = Auto;
-  
-  parametres.ParamSortie[div_clock] = 24;
+    seriOut(Triggers, 0);
 
-  for(int i=0; i<16; i++){
-    parametres.ModeSortie[i] = Trigger;
-  }
-  parametres.ModeSortie[transport] = Trigger;
-  
-  for(int i=0; i<16; i++){
-    parametres.DureeSortie[i] = 20;
-  }
-  parametres.DureeSortie[sync_clock] = 0;
+  //DEBUG=====================================================================
+    
+    parametres.CanalLearn = 1;
+    parametres.NotesLearn = Learn;
+    
+    parametres.ParamSortie[div_clock] = 24;
+
+    for(int i=0; i<12; i++){
+      parametres.ModeSortie[note[i]] = Gate;
+    }
+    parametres.ModeSortie[transport] = Trigger;
+    
+    for(int i=0; i<16; i++){
+      parametres.DureeSortie[i] = 20;
+    }
+    parametres.DureeSortie[sync_clock] = 0;
+
+    
 
 }
 
@@ -361,5 +390,10 @@ void setup() {
 *****************************************************************************/
 void loop() {
   midiBench.read();
-  verifier_delais();
+  //On ne verifie les delais qu'une fois sur 10
+  if(i >= 9) {
+    verifier_delais();
+    i = 0;
+  }
+  i++;
 }

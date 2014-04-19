@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"ser",
+				"Serial"
+			],
+			[
+				"lea",
+				"learnFlag"
+			],
+			[
+				"prin",
+				"println"
+			],
+			[
 				"com",
 				"compteur"
 			],
@@ -103,34 +115,21 @@
 			"file": "MIDI_to_Trig.ino",
 			"settings":
 			{
-				"buffer_size": 11791,
+				"buffer_size": 12719,
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Documents/MIDI_to_Trig_0_7/MIDI_to_Trig_0_7.ino",
-			"settings":
-			{
-				"buffer_size": 20830,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "Arduino Ready\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\ntic 24\nArduino Ready\nArduino Ready\nArduino Ready\nArduino Ready\nArduino Ready\nArduino Ready\nArduino Ready\nTransport : Start\nTransport : Stop\nTransport : Start\nTransport : Stop\nTransport : Start\nTransport : Stop\nTransport : Start\nTransport : Stop\nArduino Ready\nTransport : Start\nTransport : Stop\nTransport : Continue\nTransport : Stop\nTransport : Continue\nTransport : Stop\nTransport : Continue\nTransport : Stop\nArduino Ready\nTransport : Start\nTransport : Stop\nTransport : Start\nTransport : Stop\nTransport : Start\nTransport : Stop\nArduino Ready\nArduino Ready\nArduino Ready\nArduino Ready\nArduino Ready\nTransport : Start\nTransport : Stop\nTransport : Start\nTransport : Stop\nTransport : Continue\nTransport : Stop\nTransport : Start\nTransport : Stop\nArduino Ready\nTransport : Start\nTransport : Stop\nTransport : Stop\nTransport : Start\nTransport : Stop\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 39 : 127 : 1\nNote off : 39 : 64 : 1\nNote on  : 40 : 127 : 1\nNote off : 40 : 64 : 1\nNote on  : 41 : 127 : 1\nNote off : 41 : 64 : 1\nNote on  : 42 : 127 : 1\nNote off : 42 : 64 : 1\nNote on  : 43 : 127 : 1\nNote off : 43 : 64 : 1\nNote on  : 44 : 127 : 1\nNote off : 44 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 37 : 127 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 39 : 127 : 1\nNote off : 39 : 64 : 1\nNote on  : 40 : 127 : 1\nNote off : 40 : 64 : 1\nNote on  : 41 : 127 : 1\nNote off : 41 : 64 : 1\nNote on  : 42 : 127 : 1\nNote off : 42 : 64 : 1\nNote on  : 43 : 127 : 1\nNote off : 43 : 64 : 1\nNote on  : 44 : 127 : 1\nNote off : 44 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 39 : 127 : 1\nNote off : 39 : 64 : 1\nNote on  : 40 : 127 : 1\nNote off : 40 : 64 : 1\nNote on  : 41 : 127 : 1\nNote off : 41 : 64 : 1\nNote on  : 42 : 127 : 1\nNote off : 42 : 64 : 1\nNote on  : 43 : 127 : 1\nNote off : 43 : 64 : 1\nNote on  : 44 : 127 : 1\nNote off : 44 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nArduino Ready\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nArduino Ready\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nArduino Ready\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 37 : 127 : 1\nTransport : Stop\nNote off : 37 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 39 : 127 : 1\nNote off : 39 : 64 : 1\nNote on  : 40 : 127 : 1\nNote off : 40 : 64 : 1\nNote on  : 40 : 127 : 1\nNote off : 40 : 64 : 1\nNote on  : 39 : 127 : 1\nNote off : 39 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 39 : 127 : 1\nNote off : 39 : 64 : 1\nNote on  : 40 : 127 : 1\nNote off : 40 : 64 : 1\nNote on  : 39 : 127 : 1\nNote off : 39 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nArduino Ready\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nArduino Ready\nTransport : Start\nTransport : Stop\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nArduino Ready\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 36 : 127 : 1\nTransport : Stop\nNote off : 36 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 39 : 127 : 1\nNote off : 39 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 39 : 127 : 1\nNote off : 39 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 36 : 127 : 1\nTransport : Stop\nNote off : 36 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nArduino Ready\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 38 : 127 : 1\nNote off : 38 : 64 : 1\nNote on  : 37 : 127 : 1\nNote off : 37 : 64 : 1\nNote on  : 36 : 127 : 1\nNote off : 36 : 64 : 1\nArduino Ready\nNote off : 36 : 64 : 1\nNote off : 37 : 64 : 1\nNote off : 38 : 64 : 1\nNote off : 37 : 64 : 1\nNote off : 36 : 64 : 1\nNote off : 37 : 64 : 1\nNote off : 38 : 64 : 1\nNote off : 39 : 64 : 1\nNote off : 38 : 64 : 1\nNote off : 37 : 64 : 1\nNote off : 36 : 64 : 1\nArduino Ready\n",
-			"settings":
-			{
-				"buffer_size": 10923,
-				"line_ending": "Windows",
-				"name": "Serial Monitor - COM17"
 			}
 		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 58.0,
+		"height": 400.0,
 		"selected_items":
 		[
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
 			[
 				"install",
 				"Package Control: Install Package"
@@ -140,7 +139,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 400.0
+		"width": 408.0
 	},
 	"console":
 	{
@@ -157,6 +156,7 @@
 	},
 	"file_history":
 	[
+		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/Documents/MIDI_to_Trig_0_7/MIDI_to_Trig_0_7.ino",
 		"/C/Users/Laurent.WENG/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/MIDI_to_Trig.sublime-project",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/MIDI_to_Trig.ino",
@@ -183,6 +183,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Stop",
 			"Precedent",
 			"millisActuel",
 			"accent",
@@ -230,15 +231,15 @@
 					"file": "MIDI_to_Trig.ino",
 					"settings":
 					{
-						"buffer_size": 11791,
+						"buffer_size": 12719,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3934,
-								3934
+								5651,
+								5651
 							]
 						],
 						"settings":
@@ -254,7 +255,7 @@
 							"wrap_width": 80
 						},
 						"translation.x": 0.0,
-						"translation.y": 1105.0,
+						"translation.y": 1610.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -262,62 +263,8 @@
 			]
 		},
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 1,
-					"file": "Documents/MIDI_to_Trig_0_7/MIDI_to_Trig_0_7.ino",
-					"settings":
-					{
-						"buffer_size": 20830,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								16209,
-								16417
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Stino-master/Arduino.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3015.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"settings":
-					{
-						"buffer_size": 10923,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								10923,
-								10923
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 11788.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],

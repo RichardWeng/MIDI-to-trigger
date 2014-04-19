@@ -40,7 +40,7 @@ Janvier 2014
     const int sorties_clockPin = 4;
     const int affichage_clockPin = A2;
     //Pins connectes aux pins DS des 74HC595
-    const int sorties_dataPin = 2;
+    const int sorties_dataPin = 5;
     const int affichage_dataPin = A0;
      
     const int affichage_digit1 = A5;
@@ -60,7 +60,7 @@ Janvier 2014
     byte canal_canal = 0;  //canal midi selectionne
     //                          1   2   3   4   5   6   7   8   9   10  11  12  Acc P/S Div Clk     Facteurs de division : 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 96
     byte sorties_valeur[16] =  {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  80, 0,  12, 0  }; //Triggers : notes autorisees / Accent : velocite seuil / P/S : NC / Div : facteur de division /Clk : NC
-    byte sorties_mode[16]   =  {1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0,  1,  1,  1  }; //mode gate (0) ou trigger (1) pour chaque sortie (trigger par defaut, sauf pour l'accent)
+    byte sorties_mode[16]   =  {0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  0,  1,  1,  1  }; //mode gate (0) ou trigger (1) pour chaque sortie (trigger par defaut, sauf pour l'accent)
     byte sorties_duree[16]  =  {10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 }; //duree du trigger pour chaque sortie (10ms par defaut)
      
   //============================================================================
