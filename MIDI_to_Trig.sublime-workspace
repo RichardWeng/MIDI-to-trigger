@@ -115,8 +115,25 @@
 			"file": "MIDI_to_Trig.ino",
 			"settings":
 			{
-				"buffer_size": 12719,
+				"buffer_size": 12696,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Documents/MIDI_to_Trig_0_7/MIDI_to_Trig_0_7.ino",
+			"settings":
+			{
+				"buffer_size": 20830,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Arduino ReadyArduino Ready\n",
+			"settings":
+			{
+				"buffer_size": 29,
+				"line_ending": "Windows",
+				"name": "Serial Monitor - COM17"
 			}
 		}
 	],
@@ -126,6 +143,14 @@
 		"height": 400.0,
 		"selected_items":
 		[
+			[
+				"arduino",
+				"Set Syntax: Arduino"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
 			[
 				"inst",
 				"Package Control: Install Package"
@@ -231,15 +256,15 @@
 					"file": "MIDI_to_Trig.ino",
 					"settings":
 					{
-						"buffer_size": 12719,
+						"buffer_size": 12696,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5651,
-								5651
+								698,
+								698
 							]
 						],
 						"settings":
@@ -255,7 +280,7 @@
 							"wrap_width": 80
 						},
 						"translation.x": 0.0,
-						"translation.y": 1610.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -263,8 +288,62 @@
 			]
 		},
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 1,
+					"file": "Documents/MIDI_to_Trig_0_7/MIDI_to_Trig_0_7.ino",
+					"settings":
+					{
+						"buffer_size": 20830,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1220,
+								1259
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Stino-master/Arduino.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"settings":
+					{
+						"buffer_size": 29,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								29,
+								29
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],

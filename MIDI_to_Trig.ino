@@ -55,14 +55,17 @@ Janvier 2014
   const int affichage_dataPin = A0;
 
   //Pins utilises pour le multiplexage des afficheurs
-  const int affichage_digit1 = A5;
-  const int affichage_digit2 = A4;
+  const int affichage_digit[2] = {A5, A4};
+
+  //Boutons 8=echap 9=gauche 10=droite 11=entree
+  const int entreesBoutons[4] = {8, 9, 10, 11};
 
 //ENUMS=======================================================================
 
-    enum Modes {Trigger, Gate};
-    enum LearnModes {Off, Learn, Auto};
-    enum Ports {Triggers, Affichage};
+  enum Modes {Trigger, Gate};
+  enum LearnModes {Off, Learn, Auto};
+  enum Ports {Triggers, Affichage};
+  enum Boutons {Entree, Echap, Gauche, Droite};
 
 //PARAMETRES==================================================================
 
@@ -97,8 +100,11 @@ Janvier 2014
 
 //VARIABLES TEMPORELLES=======================================================
 
-  //taux de rafraichissement de l'affichage (en ms)
+  //Taux de rafraichissement de l'affichage (en ms)
   byte refreshAffichage = 10;
+
+  //Temps pour le debounging des boutons (en ms)
+  byte tempsDebounce = 20;
 
   //Utilise pour la division de l'horloge midi
   byte compteurClock = 0;
@@ -108,6 +114,21 @@ Janvier 2014
 
   //Utilise pour le rafraichissement de l'affichage
   unsigned long millisAffichage;
+
+  //Utilise pour le debouncing des boutons
+  unsigned long millisBoutons[4];
+
+//AFFICHAGE===================================================================
+  typedef struct{
+    byte segments;
+    char symbole;
+  }digits;
+
+  //Le tableau contenant les caracteres pour l'afficheur 7 segments
+  digits tableauDigits[40];
+  
+  //donnees a afficher sur les digits
+  char donneesAffichage[2];
 
 //SORTIES=====================================================================
   
@@ -120,6 +141,14 @@ Janvier 2014
   byte transport = 1;
   byte div_clock = 2;
   byte sync_clock = 3;
+
+//BOUTONS=====================================================================
+  //Le bouton que l'on vient de presser
+  Boutons dernierBoutonPresse;
+  byte
+    etat_bouton[4], //
+    dernier_etat_bouton[4], //
+    nouvel_appui[4];  //
 
 //DIVERS======================================================================
   //Utilise pour savoir si on a fini l'apprentissage (0) ou non (1)
@@ -288,12 +317,12 @@ Janvier 2014
       }
       //rafraichissement de l'affichage
       if(millisActuel - millisAffichage > refreshAffichage){
-          //affichage();
+          affichage();
       }
     }
 
   //SORTIE SERIE==============================================================
-    void seriOut(Ports port, byte donnees){
+    void seriOut(Ports port, byte donnees) {
       byte dataPin;
       byte clockPin;
       byte latchPin;
@@ -317,83 +346,228 @@ Janvier 2014
       digitalWrite(latchPin, HIGH);
     }
 
+  //AFFICHAGE=================================================================
+
+    void affichage() {
+      byte pin_digitActif;
+      byte pin_digitInactif;
+      byte donnees;
+    
+      //On active le digit qui n'etait pas actif lors de la lecture precedente
+      boolean lecture = digitalRead(affichage_digit[0]);
+      pin_digitActif = affichage_digit[lecture];
+      pin_digitInactif = affichage_digit[!lecture];
+      donnees = donneesAffichage[lecture];
+   
+      digitalWrite(pin_digitInactif, LOW);  //desactivation du digit precedent
+      seriOut(Affichage, donnees);  //transmission des donnees sur le port AFFICHAGE
+      digitalWrite(pin_digitActif, HIGH); //activation du digit courant
+      millisAffichage = millis();
+    }
+
+  //CREATION DIGITS===========================================================
+ 
+  void creation_digits(const char* caracteres) {
+    //TODO
+    //ici, rechercher correspondance entre les caracteres en entree et le
+    //tableau des digits pour en deduire le numero du digit a afficher.
+    //Penser a afficher du vide devant lorsqu'il n'y a qu'un seul digit.
+    
+    byte compteur = 0;
+
+    for(int i=0; i < 2; i++){
+      compteur = 0;
+      while(caracteres[i] != tableauDigits[compteur].symbole) {
+        compteur++;
+      }
+      donneesAffichage[i] = tableauDigits[compteur].segments;
+    }    
+  }
+
+  //ENTREE BOUTON=============================================================
+
+    void verifierBoutons() {
+      for(int compteur=0; compteur<4; compteur++){
+        
+        //on enregistre le temps actuel
+        unsigned long millisActuel = millis();
+        
+        //lire l'entree du bouton-poussoir
+        byte lecture = digitalRead(entreesBoutons[compteur]);
+       
+        //comparer l'etat du bouton a son etat precedent
+        //si le statut du bouton a change
+        if (lecture != dernier_etat_bouton[compteur]) {
+          //on enregistre le temps actuel
+          millisBoutons[compteur] = millisActuel;
+        }
+        
+        //Si on a passe e temps de debouncing
+        if((millisActuel - millisBoutons[compteur]) > tempsDebounce){
+          
+          //si l'etat du bouton a change
+          if(lecture != etat_bouton[compteur]) {
+            etat_bouton[compteur] = lecture;
+       
+            //si le bouton est presse
+            if(etat_bouton[compteur] == true) {
+              nouvel_appui[compteur] = true;
+              //DEBUG=========================================================
+                switch (compteur) {
+                    case 0:
+                      Serial.println("Exit");
+                      break;
+                    case 1:
+                      Serial.println("Gauche");
+                      break;
+                    case 2:
+                      Serial.println("Droite");
+                      break;
+                    case 3:
+                      Serial.println("Entree");
+                      break;
+                    default:
+                      Serial.println("Erreur boutons");
+                }
+            }    
+          }      
+        }
+        dernier_etat_bouton[compteur] = lecture;
+         
+      }
+    }
+
 /*****************************************************************************
         SETUP
 *****************************************************************************/
-void setup() {
+  void setup() {
 
-  //PINS======================================================================
+    //PINS====================================================================
 
-    pinMode(sorties_latchPin, OUTPUT);
-    pinMode(sorties_clockPin, OUTPUT);
-    pinMode(sorties_dataPin, OUTPUT);
-    pinMode(affichage_latchPin, OUTPUT);
-    pinMode(affichage_clockPin, OUTPUT);
-    pinMode(affichage_dataPin, OUTPUT);
-    pinMode(affichage_digit1, OUTPUT);
-    pinMode(affichage_digit2, OUTPUT);
+      pinMode(sorties_latchPin, OUTPUT);
+      pinMode(sorties_clockPin, OUTPUT);
+      pinMode(sorties_dataPin, OUTPUT);
+      
+      pinMode(affichage_latchPin, OUTPUT);
+      pinMode(affichage_clockPin, OUTPUT);
+      pinMode(affichage_dataPin, OUTPUT);
+      pinMode(affichage_digit[0], OUTPUT);
+      pinMode(affichage_digit[1], OUTPUT);
 
-  //CALLBACKS=================================================================
+      pinMode(entreesBoutons[0], INPUT);
+      pinMode(entreesBoutons[1], INPUT);
+      pinMode(entreesBoutons[2], INPUT);
+      pinMode(entreesBoutons[3], INPUT);
 
-    //Callback Note on
-    midiBench.setHandleNoteOn(handleNoteOn);
-    //Callback Note off 
-    midiBench.setHandleNoteOff(handleNoteOff);
-    //Callback Clock
-    midiBench.setHandleClock(handleClock);
-    //Callback Start
-    midiBench.setHandleStart(handleStart);
-    //Callback Stop
-    midiBench.setHandleContinue(handleContinue);
-    //Callback Continue
-    midiBench.setHandleStop(handleStop);
+    //AFFICHAGE===============================================================
+    //                                                             GFABDC.E
+    tableauDigits[0].symbole  = '0'; tableauDigits[0].segments  = B01111101;
+    tableauDigits[1].symbole  = '1'; tableauDigits[1].segments  = B00010100;
+    tableauDigits[2].symbole  = '2'; tableauDigits[2].segments  = B10111001;
+    tableauDigits[3].symbole  = '3'; tableauDigits[3].segments  = B10111100;
+    tableauDigits[4].symbole  = '4'; tableauDigits[4].segments  = B11010100;
+    tableauDigits[5].symbole  = '5'; tableauDigits[5].segments  = B11101100;
+    tableauDigits[6].symbole  = '6'; tableauDigits[6].segments  = B11101101;
+    tableauDigits[7].symbole  = '7'; tableauDigits[7].segments  = B00110100;
+    tableauDigits[8].symbole  = '8'; tableauDigits[8].segments  = B11111101;
+    tableauDigits[9].symbole  = '9'; tableauDigits[9].segments  = B11111100;
+    tableauDigits[10].symbole = 'a'; tableauDigits[10].segments = B10111101;
+    tableauDigits[11].symbole = 'b'; tableauDigits[11].segments = B11001101;
+    tableauDigits[12].symbole = 'c'; tableauDigits[12].segments = B10001001;
+    tableauDigits[13].symbole = 'd'; tableauDigits[13].segments = B10011101;
+    tableauDigits[14].symbole = 'E'; tableauDigits[14].segments = B11101001;
+    tableauDigits[15].symbole = 'F'; tableauDigits[15].segments = B11100001;
+    tableauDigits[16].symbole = 'g'; tableauDigits[16].segments = B11111100;
+    tableauDigits[17].symbole = 'h'; tableauDigits[17].segments = B11000101;
+    tableauDigits[18].symbole = 'i'; tableauDigits[18].segments = B00000001;
+    tableauDigits[19].symbole = 'J'; tableauDigits[19].segments = B00011100;
+    tableauDigits[20].symbole = 'K'; tableauDigits[20].segments = B11010101;
+    tableauDigits[21].symbole = 'L'; tableauDigits[21].segments = B01001001;
+    tableauDigits[22].symbole = 'M'; tableauDigits[22].segments = B01110101;
+    tableauDigits[23].symbole = 'n'; tableauDigits[23].segments = B10000101;
+    tableauDigits[24].symbole = 'o'; tableauDigits[24].segments = B10001101;
+    tableauDigits[25].symbole = 'p'; tableauDigits[25].segments = B11110001;
+    tableauDigits[26].symbole = 'q'; tableauDigits[26].segments = B11110100;
+    tableauDigits[27].symbole = 'r'; tableauDigits[27].segments = B10000001;
+    tableauDigits[28].symbole = 's'; tableauDigits[28].segments = B11101100;
+    tableauDigits[29].symbole = 't'; tableauDigits[29].segments = B11001001;
+    tableauDigits[30].symbole = 'U'; tableauDigits[30].segments = B01011101;
+    tableauDigits[31].symbole = 'v'; tableauDigits[31].segments = B00001101;
+    tableauDigits[32].symbole = 'W'; tableauDigits[32].segments = B00101101;
+    tableauDigits[33].symbole = 'X'; tableauDigits[33].segments = B11010101;
+    tableauDigits[34].symbole = 'Y'; tableauDigits[34].segments = B11011100;
+    tableauDigits[35].symbole = 'Z'; tableauDigits[35].segments = B10111001;
+    tableauDigits[36].symbole = '.'; tableauDigits[36].segments = B00000010;
+    tableauDigits[37].symbole = '-'; tableauDigits[37].segments = B10000000;
+    //double L
+    tableauDigits[38].symbole = 'l'; tableauDigits[38].segments = B01010101;
+    //vide
+    tableauDigits[39].symbole = '/'; tableauDigits[39].segments = B00000000;
 
-    //Callback CC
-    //midiBench.setHandleControlChange(handleControlChange);
+    //CALLBACKS===============================================================
 
-  //PORTS SERIE===============================================================
+      //Callback Note on
+      midiBench.setHandleNoteOn(handleNoteOn);
+      //Callback Note off 
+      midiBench.setHandleNoteOff(handleNoteOff);
+      //Callback Clock
+      midiBench.setHandleClock(handleClock);
+      //Callback Start
+      midiBench.setHandleStart(handleStart);
+      //Callback Stop
+      midiBench.setHandleContinue(handleContinue);
+      //Callback Continue
+      midiBench.setHandleStop(handleStop);
 
-    //Midi
-    midiBench.begin(MIDI_CHANNEL_OMNI);
+      //Callback CC
+      //midiBench.setHandleControlChange(handleControlChange);
 
-    //Serie
-    while(!Serial);
-    Serial.begin(115200);
-    Serial.println("Arduino Ready");
+    //PORTS SERIE=============================================================
 
-    seriOut(Triggers, 0);
+      //Midi
+      midiBench.begin(MIDI_CHANNEL_OMNI);
 
-  //DEBUG=====================================================================
-    
-    parametres.CanalLearn = 1;
-    parametres.NotesLearn = Learn;
-    
-    parametres.ParamSortie[div_clock] = 24;
+      //Serie
+      while(!Serial);
+      Serial.begin(115200);
+      Serial.println("Arduino Ready");
 
-    for(int i=0; i<12; i++){
-      parametres.ModeSortie[note[i]] = Gate;
-    }
-    parametres.ModeSortie[transport] = Trigger;
-    
-    for(int i=0; i<16; i++){
-      parametres.DureeSortie[i] = 20;
-    }
-    parametres.DureeSortie[sync_clock] = 0;
+      seriOut(Triggers, 0);
 
-    
+    //DEBUG===================================================================
+      
+      parametres.CanalLearn = 1;
+      parametres.NotesLearn = Learn;
+      
+      parametres.ParamSortie[div_clock] = 24;
 
-}
+      for(int i=0; i<12; i++){
+        parametres.ModeSortie[note[i]] = Gate;
+      }
+      parametres.ModeSortie[transport] = Trigger;
+      
+      for(int i=0; i<16; i++){
+        parametres.DureeSortie[i] = 20;
+      }
+      parametres.DureeSortie[sync_clock] = 0;
 
+      strcpy(donneesAffichage, "dv");
+      creation_digits(donneesAffichage);
+
+      
+
+  }
 
 /*****************************************************************************
         MAIN
 *****************************************************************************/
-void loop() {
-  midiBench.read();
-  //On ne verifie les delais qu'une fois sur 10
-  if(i >= 9) {
-    verifier_delais();
-    i = 0;
+  void loop() {
+    midiBench.read();
+    //On ne verifie les delais qu'une fois sur 10
+    if(i >= 10) {
+      verifier_delais();
+      verifierBoutons();
+      i = 0;
+    }
+    i++;
   }
-  i++;
-}
