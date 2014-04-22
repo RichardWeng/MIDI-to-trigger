@@ -65,7 +65,7 @@ Janvier 2014
   enum Modes {Trigger, Gate};
   enum LearnModes {Off, Learn, Auto};
   enum Ports {Triggers, Affichage};
-  enum Boutons {Entree, Echap, Gauche, Droite};
+  enum Boutons {Echap, Gauche, Droite, Entree};
 
 //PARAMETRES==================================================================
 
@@ -118,16 +118,23 @@ Janvier 2014
   //Utilise pour le debouncing des boutons
   unsigned long millisBoutons[4];
 
-  //MENUS=====================================================================
-    typedef struct{
-      char nom[3];
-      int id_parent;
-      int valeur;
-    }menuItem;
+//MENUS=======================================================================
+  typedef struct{
+    char nom[3];
+    int id_parent;
+    int valeur;
+  }menuItem;
 
-    menuItem menu[20];
+  //Nombre d'items dans le menu
+  const byte nombreItems = 6;
 
-    byte menuCourant = 0;
+  menuItem menu[nombreItems];
+
+  //Le menu dans lequel on est actuellement
+  int menuCourant = -1;
+
+  //Le menu actuellement affiche sur l'ecran
+  int menuAffiche = 0;
 
 //AFFICHAGE===================================================================
   typedef struct{
@@ -154,8 +161,7 @@ Janvier 2014
   byte sync_clock = 3;
 
 //BOUTONS=====================================================================
-  //Le bouton que l'on vient de presser
-  Boutons dernierBoutonPresse;
+  
   byte
     etat_bouton[4], //
     dernier_etat_bouton[4], //
@@ -378,28 +384,29 @@ Janvier 2014
 
   //CREATION DIGITS===========================================================
  
-  void creation_digits(const char* caracteres) {
-    //TODO
-    //ici, rechercher correspondance entre les caracteres en entree et le
-    //tableau des digits pour en deduire le numero du digit a afficher.
-    //Penser a afficher du vide devant lorsqu'il n'y a qu'un seul digit.
-    
-    byte compteur = 0;
+    void creation_digits(const char* caracteres) {
+      //TODO
+      //ici, rechercher correspondance entre les caracteres en entree et le
+      //tableau des digits pour en deduire le numero du digit a afficher.
+      //Penser a afficher du vide devant lorsqu'il n'y a qu'un seul digit.
+      
+      byte compteur = 0;
 
-    for(int i=0; i < 2; i++){
-      compteur = 0;
-      while(caracteres[i] != tableauDigits[compteur].symbole) {
-        compteur++;
-      }
-      donneesAffichage[i] = tableauDigits[compteur].segments;
-    }    
-  }
+      for(int i=0; i < 2; i++){
+        compteur = 0;
+        while(caracteres[i] != tableauDigits[compteur].symbole) {
+          compteur++;
+        }
+        donneesAffichage[i] = tableauDigits[compteur].segments;
+      }    
+    }
 
   //ENTREE BOUTON=============================================================
 
     void verifierBoutons() {
-      for(int compteur=0; compteur<4; compteur++){
-        
+
+      for(byte compteur = 0; compteur < 4; compteur++){
+
         //on enregistre le temps actuel
         unsigned long millisActuel = millis();
         
@@ -422,28 +429,9 @@ Janvier 2014
        
             //si le bouton est presse
             if(etat_bouton[compteur] == true) {
-              nouvel_appui[compteur] = true;
-              //DEBUG=========================================================
-                switch (compteur) {
-                    case 0:
-                      Serial.println("Exit");
-                      break;
-                    case 1:
-                      Serial.println("Gauche");
-                      menuCourant--;
-                      break;
-                    case 2:
-                      Serial.println("Droite");
-                      menuCourant++;
-                      break;
-                    case 3:
-                      Serial.println("Entree");
-                      break;
-                    default:
-                      Serial.println("Erreur boutons");
-                }
-                strcpy(donneesAffichage, menu[menuCourant].nom);
-                creation_digits(donneesAffichage);
+              traitementBouton((Boutons) compteur);
+              strcpy(donneesAffichage, menu[menuAffiche].nom);
+              creation_digits(donneesAffichage);
             }    
           }      
         }
@@ -452,28 +440,122 @@ Janvier 2014
       }
     }
 
+  //TRAITEMENT BOUTON=========================================================
+
+    void traitementBouton(Boutons dernierBoutonPresse) {
+
+      switch (dernierBoutonPresse) {
+
+        case Echap:
+          Serial.println("Echap");
+          //Si on n'est pas a la racine
+          if(menuCourant > -1) {
+            menuCourant = menu[menuCourant].id_parent;
+            do {
+              menuAffiche++;
+              if(menuAffiche > nombreItems) {
+                menuAffiche = 0;
+              }
+            } while (menu[menuAffiche].id_parent != menuCourant);
+          }
+          // do something
+          break;
+          
+        case Gauche:
+          Serial.println("Gauche");
+          do {
+            if(menuAffiche == 0) {
+              menuAffiche = nombreItems;
+            }
+            menuAffiche--;
+          } while (menu[menuAffiche].id_parent != menuCourant);
+          break;
+
+        case Droite:
+          Serial.println("Droite");
+          do {
+            menuAffiche++;
+            if(menuAffiche > nombreItems) {
+              menuAffiche = 0;
+            }
+          } while (menu[menuAffiche].id_parent != menuCourant);
+          break;
+
+        case Entree:
+          Serial.println("Entree");
+
+          //Si le menu sur lequel on vient de cliquer possede des enfants
+          if(possedeDesEnfants(menuAffiche)) {
+            menuCourant = menuAffiche;
+            do {
+              menuAffiche++;
+              if(menuAffiche > nombreItems) {
+                menuAffiche = 0;
+              }
+            } while (menu[menuAffiche].id_parent != menuCourant);
+          }
+          // do something
+          break;
+        
+        default:
+          Serial.println("Erreur traitementBouton");
+      }
+
+    }
+
+  //MENUS=====================================================================
+
+    //Verifie si le menu teste possede des enfants
+    boolean possedeDesEnfants(byte menuTeste) {
+      boolean enfantsTrouves = false;
+      for(int i=0; i<nombreItems; i++){
+        if(menu[i].id_parent == menuTeste) {
+          enfantsTrouves = true;
+        }
+      }
+      return enfantsTrouves;
+    }
+
 /*****************************************************************************
         SETUP
 *****************************************************************************/
   void setup() {
 
     //MENU====================================================================
-        //Clock division
-          strncpy(menu[0].nom, "di", 3);
-          menu[0].id_parent = -1;
-          menu[0].valeur = 24;  //1->96
-        //Root note
-          strncpy(menu[1].nom, "no", 3);
-          menu[1].id_parent = -1;
-          menu[1].valeur = 0;
-        //Canal
-          strncpy(menu[2].nom, "ch", 3);
-          menu[2].id_parent = -1;
-          menu[2].valeur = 0; //-1 = learn / 1->16
-        //Start / Stop;
-          strncpy(menu[3].nom, "St", 3);
-          menu[3].id_parent = -1;
-          menu[3].valeur = 0; //0 = trig / 1 = gate
+      
+      //Juste pour faciliter l'ajout de menus
+      byte id = 0;
+
+      //Clock division
+        id = 0;
+        strncpy(menu[id].nom, "di", 3);
+        menu[id].id_parent = -1;
+        menu[id].valeur = 24;  //1->96
+      //Root note
+        id = 1;
+        strncpy(menu[id].nom, "no", 3);
+        menu[id].id_parent = -1;
+        menu[id].valeur = 0;
+      //Canal
+        id = 2;
+        strncpy(menu[id].nom, "ch", 3);
+        menu[id].id_parent = -1;
+        menu[id].valeur = 0; //-1 = learn / 1->16
+      //Start / Stop;
+        id = 3;
+        strncpy(menu[id].nom, "St", 3);
+        menu[id].id_parent = -1;
+        menu[id].valeur = 0; //0 = trig / 1 = gate
+      //Start / Stop;
+        id = 4;
+        strncpy(menu[id].nom, "tr", 3);
+        menu[id].id_parent = 3;
+        menu[id].valeur = 0; //0 = trig / 1 = gate
+      //Start / Stop;
+        id = 5;
+        strncpy(menu[id].nom, "gt", 3);
+        menu[id].id_parent = 3;
+        menu[id].valeur = 0; //0 = trig / 1 = gate
        
        
       /*enum menus {
@@ -607,10 +689,8 @@ Janvier 2014
       }
       parametres.DureeSortie[sync_clock] = 0;
 
-      strcpy(donneesAffichage, "dv");
+      strcpy(donneesAffichage, menu[menuAffiche].nom);
       creation_digits(donneesAffichage);
-
-      
 
   }
 

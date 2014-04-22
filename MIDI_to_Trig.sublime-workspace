@@ -4,16 +4,56 @@
 		"selected_items":
 		[
 			[
-				"aff",
-				"affichage"
-			],
-			[
 				"me",
 				"menuCourant"
 			],
 			[
 				"menu",
-				"menuCourant"
+				"menuAffiche"
+			],
+			[
+				"enf",
+				"enfantsTrouves"
+			],
+			[
+				"men",
+				"menuTeste"
+			],
+			[
+				"pos",
+				"possedeDesEnfants"
+			],
+			[
+				"id",
+				"id_parent"
+			],
+			[
+				"bou",
+				"boutonEnCours"
+			],
+			[
+				"do",
+				"dowihle	Arduino do-while"
+			],
+			[
+				"tra",
+				"traitementBouton"
+			],
+			[
+				"nombre",
+				"nombreItems"
+			],
+			[
+				"etat",
+				"etat_bouton"
+			],
+			[
+				"int",
+				"int	Arduino int()"
+			],
+			[
+				"aff",
+				"affichage"
 			],
 			[
 				"comp",
@@ -152,10 +192,6 @@
 				"millis	Arduino millis()"
 			],
 			[
-				"etat",
-				"etat_sorties"
-			],
-			[
 				"millis",
 				"millis	Arduino millis()"
 			],
@@ -187,7 +223,7 @@
 			"file": "MIDI_to_Trig.ino",
 			"settings":
 			{
-				"buffer_size": 21817,
+				"buffer_size": 23826,
 				"line_ending": "Windows"
 			}
 		},
@@ -200,10 +236,10 @@
 			}
 		},
 		{
-			"contents": "Arduino Ready\nDroite\nDroite\nDroite\nDroite\nArduino Ready\nDroite\nDroite\nDroite\nGauche\nGauche\nGauche\nGauche\nDroite\nDroite\nDroite\nDroite\nGauche\nGauche\nGauche\nArduino Ready\nDroite\nDroite\nDroite\nDroite\nGauche\nGauche\nGauche\nGauche\nDroite\nDroite\nDroite\nGauche\nGauche\nGauche\nDroite\nDroite\nDroite\nGauche\nGauche\nGauche\nDroite\nDroite\nDroite\nGauche\nGauche\nGauche\nDroite\nDroite\nDroite\nGauche\nGauche\nGauche\nExit\nDroite\nDroite\nDroite\n",
+			"contents": "Echap\nArduino Ready\nEchap\nArduino Ready\nEchap\nArduino Ready\nEchap\nArduino Ready\nEchap\nArduino Ready\nEchap\nArduino Ready\nEchap\nArduino Ready\nEchap\nArduino Ready\nEchap\nDroite\nDroite\nDroite\nDroite\nDroite\nDroite\nDroite\nEntree\nDroite\nDroite\nDroite\nEchap\nDroite\nDroite\nDroite\nGauche\nGauche\nGauche\n",
 			"settings":
 			{
-				"buffer_size": 475,
+				"buffer_size": 326,
 				"line_ending": "Windows",
 				"name": "Serial Monitor - COM17"
 			}
@@ -280,6 +316,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"i",
+			"3",
+			"2",
+			"0",
+			"boutonEnCours",
+			"i",
+			"boutonEnCours",
+			"Bouton",
+			"bouton",
+			"Bouton",
+			"BoutonPresse",
+			"compteur",
 			"TODO",
 			"Stop",
 			"Precedent",
@@ -329,15 +377,15 @@
 					"file": "MIDI_to_Trig.ino",
 					"settings":
 					{
-						"buffer_size": 21817,
+						"buffer_size": 23826,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								15596,
-								15596
+								13875,
+								13875
 							]
 						],
 						"settings":
@@ -353,7 +401,7 @@
 							"wrap_width": 80
 						},
 						"translation.x": 0.0,
-						"translation.y": 6491.0,
+						"translation.y": 1753.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -396,15 +444,15 @@
 					"buffer": 2,
 					"settings":
 					{
-						"buffer_size": 475,
+						"buffer_size": 326,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								475,
-								475
+								153,
+								153
 							]
 						],
 						"settings":
