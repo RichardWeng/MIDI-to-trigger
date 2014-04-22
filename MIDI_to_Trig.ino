@@ -118,6 +118,17 @@ Janvier 2014
   //Utilise pour le debouncing des boutons
   unsigned long millisBoutons[4];
 
+  //MENUS=====================================================================
+    typedef struct{
+      char nom[3];
+      int id_parent;
+      int valeur;
+    }menuItem;
+
+    menuItem menu[20];
+
+    byte menuCourant = 0;
+
 //AFFICHAGE===================================================================
   typedef struct{
     byte segments;
@@ -419,9 +430,11 @@ Janvier 2014
                       break;
                     case 1:
                       Serial.println("Gauche");
+                      menuCourant--;
                       break;
                     case 2:
                       Serial.println("Droite");
+                      menuCourant++;
                       break;
                     case 3:
                       Serial.println("Entree");
@@ -429,6 +442,8 @@ Janvier 2014
                     default:
                       Serial.println("Erreur boutons");
                 }
+                strcpy(donneesAffichage, menu[menuCourant].nom);
+                creation_digits(donneesAffichage);
             }    
           }      
         }
@@ -441,6 +456,47 @@ Janvier 2014
         SETUP
 *****************************************************************************/
   void setup() {
+
+    //MENU====================================================================
+        //Clock division
+          strncpy(menu[0].nom, "di", 3);
+          menu[0].id_parent = -1;
+          menu[0].valeur = 24;  //1->96
+        //Root note
+          strncpy(menu[1].nom, "no", 3);
+          menu[1].id_parent = -1;
+          menu[1].valeur = 0;
+        //Canal
+          strncpy(menu[2].nom, "ch", 3);
+          menu[2].id_parent = -1;
+          menu[2].valeur = 0; //-1 = learn / 1->16
+        //Start / Stop;
+          strncpy(menu[3].nom, "St", 3);
+          menu[3].id_parent = -1;
+          menu[3].valeur = 0; //0 = trig / 1 = gate
+       
+       
+      /*enum menus {
+      HOME,
+      CLOCK,
+      CLOCK_DIV,
+      NOTE,
+      NOTE_SELEC,
+      CANAL,
+      CANAL_SELEC,
+      START,
+      START_SELEC,
+        SORTIES,
+        SORTIES_MODE,
+        SORTIES_MODE_SELEC,
+        SORTIES_MODE_SELEC_MODE,
+        SORTIES_DUREE,
+        SORTIES_DUREE_SELEC,
+        SORTIES_DUREE_SELEC_DUREE,
+        ACCENT,
+        ACCENT_SELEC,
+        LEARN
+      };*/
 
     //PINS====================================================================
 
@@ -489,7 +545,7 @@ Janvier 2014
     tableauDigits[25].symbole = 'p'; tableauDigits[25].segments = B11110001;
     tableauDigits[26].symbole = 'q'; tableauDigits[26].segments = B11110100;
     tableauDigits[27].symbole = 'r'; tableauDigits[27].segments = B10000001;
-    tableauDigits[28].symbole = 's'; tableauDigits[28].segments = B11101100;
+    tableauDigits[28].symbole = 'S'; tableauDigits[28].segments = B11101100;
     tableauDigits[29].symbole = 't'; tableauDigits[29].segments = B11001001;
     tableauDigits[30].symbole = 'U'; tableauDigits[30].segments = B01011101;
     tableauDigits[31].symbole = 'v'; tableauDigits[31].segments = B00001101;
