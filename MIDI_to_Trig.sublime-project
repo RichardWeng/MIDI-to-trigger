@@ -3,6 +3,9 @@
 	[
 		{
 			"path": "Documents"
+		},
+		{
+			"path": "sources"
 		}
 	]
 }
