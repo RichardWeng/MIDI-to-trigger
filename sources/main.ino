@@ -41,22 +41,22 @@ Janvier 2014
 //PINS========================================================================
 
   //Pins connectes aux pins ST_CP des 74HC595
-  const int sorties_latchPin = 3;
-  const int affichage_latchPin = A1;
+  const byte sorties_latchPin = 3;
+  const byte affichage_latchPin = A1;
 
   //Pins connectes aux pins SH_CP des 74HC595
-  const int sorties_clockPin = 4;
-  const int affichage_clockPin = A2;
+  const byte sorties_clockPin = 4;
+  const byte affichage_clockPin = A2;
 
   //Pins connectes aux pins DS des 74HC595
-  const int sorties_dataPin = 5;
-  const int affichage_dataPin = A0;
+  const byte sorties_dataPin = 5;
+  const byte affichage_dataPin = A0;
 
   //Pins utilises pour le multiplexage des afficheurs
-  const int affichage_digit[2] = {A5, A4};
+  const byte affichage_digit[2] = {A5, A4};
 
   //Boutons 8=echap 9=gauche 10=droite 11=entree
-  const int entreesBoutons[4] = {8, 9, 10, 11};
+  const byte entreesBoutons[4] = {8, 9, 10, 11};
 
 //ENUMS=======================================================================
 
@@ -76,14 +76,15 @@ Janvier 2014
       boolean CanalLearn;
 
       //canal midi selectionne
-      int Canal;
+      byte Canal;
 
       //1->12:triggers, 13:Accent, 14:Play/Stop, 15:Clk div, 16: Clk
       //mode gate ou trigger pour chaque sortie
       Modes ModeSortie[16];
 
       //duree du trigger pour chaque sortie
-      int DureeSortie[16];
+      //TODO : on peut rassembler ces deux parametres en un seul si 0 ms = gate
+      byte DureeSortie[16];
 
       //Triggers (1->12) : note autorisee
       //Accent : velocite seuil
