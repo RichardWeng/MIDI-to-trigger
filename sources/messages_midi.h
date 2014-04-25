@@ -12,3 +12,5 @@
     void handleStop();
 
     void killNotes();
+
+    void learn(byte inChannel, byte inNote);

@@ -3,40 +3,7 @@
 
       //Si l'on doit apprendre le canal ou les notes
       if(learnFlag && (parametres.NotesLearn || parametres.CanalLearn)) {
-        //Si l'on doit apprendre le canal
-        if(parametres.CanalLearn) {
-          //On enregistre le canal dans les parametres
-          parametres.Canal = inChannel;
-          //TODO : Il ne faut ecouter que ce canal
-          //Si l'on n'a pas active l'apprentissage des notes
-          if(!parametres.NotesLearn) {
-            //On a fini l'apprentissage
-            learnFlag = 0;
-          }
-        }
-        
-        //Si l'apprentissage des notes est en mode auto
-        if(parametres.NotesLearn == Auto) {
-          //On enregistre cette note et les notes consecutives dans les parametres
-          for(byte compteur = 0; compteur < 12; compteur++) {
-            parametres.ParamSortie[note[compteur]] = inNote + compteur;
-          }
-          //On a fini l'apprentissage
-          learnFlag = 0;
-        }
-        //Sinon, l'apprentissage des notes est en mode learn, on doit les apprendre toutes une par une
-        else if(parametres.NotesLearn == Learn) {
-          //Serial.println("Mode Learn");
-          //On enregistre les notes dans les parametres une par une, dans l'ordre de reception
-          parametres.ParamSortie[note[compteurNotesLearn]] = inNote;
-          //on incremente le compteur
-          compteurNotesLearn++;
-          //Si le compteur arrive a 12, c'est qu'on a assigne une note a chaque sortie
-          if(compteurNotesLearn == 12) {
-            //On a fini l'apprentissage
-            learnFlag = 0;
-          }
-        }
+        learn(inChannel, inNote);
       }
 
       for(byte compteur=0; compteur < 12; compteur++) {
@@ -49,12 +16,12 @@
             //On demarre le chrono du temps d'impulsion
             millisTriggers[note[compteur]] = millis();
           }
+          //On active la sortie accent si besoin
+          if(inVelocity >= parametres.ParamSortie[accent]) {
+            bitSet(etat_sorties, accent);
+            millisTriggers[accent] = millis();
+          }
         }
-      }
-
-      if(inVelocity >= parametres.ParamSortie[accent]) {
-        bitSet(etat_sorties, accent);
-        millisTriggers[accent] = millis();
       }
 
       //On met a jour l'etat des sorties
@@ -137,4 +104,44 @@
       }
       //On met a jour l'etat des sorties
       seriOut(Triggers, etat_sorties);
+    }
+
+    void learn(byte inChannel, byte inNote) {
+
+      //Si l'on doit apprendre le canal
+      if(parametres.CanalLearn) {
+        //On enregistre le canal dans les parametres
+        parametres.Canal = inChannel;
+        //TODO : Il ne faut ecouter que ce canal
+        //Si l'on n'a pas active l'apprentissage des notes
+        if(!parametres.NotesLearn) {
+          //On a fini l'apprentissage
+          learnFlag = 0;
+        }
+      }
+      
+      //Si l'apprentissage des notes est en mode auto
+      if(parametres.NotesLearn == Auto) {
+        //On enregistre cette note et les notes consecutives dans les parametres
+        for(byte compteur = 0; compteur < 12; compteur++) {
+          parametres.ParamSortie[note[compteur]] = inNote + compteur;
+        }
+        //On a fini l'apprentissage
+        learnFlag = 0;
+      }
+
+      //Sinon, l'apprentissage des notes est en mode learn, on doit les apprendre toutes une par une
+      else if(parametres.NotesLearn == Learn) {
+        //Serial.println("Mode Learn");
+        //On enregistre les notes dans les parametres une par une, dans l'ordre de reception
+        parametres.ParamSortie[note[compteurNotesLearn]] = inNote;
+        //on incremente le compteur
+        compteurNotesLearn++;
+        //Si le compteur arrive a 12, c'est qu'on a assigne une note a chaque sortie
+        if(compteurNotesLearn == 12) {
+          //On a fini l'apprentissage
+          learnFlag = 0;
+        }
+      }
+
     }

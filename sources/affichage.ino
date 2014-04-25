@@ -27,7 +27,7 @@
       
       byte compteur = 0;
 
-      for(int i=0; i < 2; i++){
+      for(byte i=0; i < 2; i++){
         compteur = 0;
         while(caracteres[i] != tableauDigits[compteur].symbole) {
           compteur++;

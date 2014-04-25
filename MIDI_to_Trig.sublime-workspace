@@ -4,24 +4,32 @@
 		"selected_items":
 		[
 			[
+				"menu",
+				"menuCourant"
+			],
+			[
+				"me",
+				"menuEnfant"
+			],
+			[
+				"men",
+				"menuPrecedent"
+			],
+			[
+				"acc",
+				"accent"
+			],
+			[
+				"lea",
+				"learn"
+			],
+			[
 				"in",
 				"include"
 			],
 			[
-				"me",
-				"menuCourant"
-			],
-			[
-				"menu",
-				"menuAffiche"
-			],
-			[
 				"enf",
 				"enfantsTrouves"
-			],
-			[
-				"men",
-				"menuTeste"
 			],
 			[
 				"pos",
@@ -132,10 +140,6 @@
 				"Serial"
 			],
 			[
-				"lea",
-				"learnFlag"
-			],
-			[
 				"prin",
 				"println"
 			],
@@ -227,7 +231,23 @@
 			"file": "sources/main.ino",
 			"settings":
 			{
-				"buffer_size": 16877,
+				"buffer_size": 15331,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "sources/messages_midi.ino",
+			"settings":
+			{
+				"buffer_size": 5166,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "sources/menu.ino",
+			"settings":
+			{
+				"buffer_size": 1413,
 				"line_ending": "Windows"
 			}
 		}
@@ -267,21 +287,22 @@
 	},
 	"distraction_free":
 	{
-		"menu_visible": true,
+		"menu_visible": false,
 		"show_minimap": false,
 		"show_open_files": false,
-		"show_tabs": false,
-		"side_bar_visible": false,
+		"show_tabs": true,
+		"side_bar_visible": true,
 		"status_bar_visible": false
 	},
 	"file_history":
 	[
-		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/affichage.h",
-		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/affichage.ino",
-		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/sorties.h",
-		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/sorties.ino",
+		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/menu.h",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/messages_midi.h",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/messages_midi.ino",
+		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/sorties.ino",
+		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/affichage.ino",
+		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/affichage.h",
+		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/sorties.h",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/MIDI_to_Trig.ino",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/MIDI_to_Trig.sublime-project",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/Documents/MIDI_to_Trig_0_7/MIDI_to_Trig_0_7.ino",
@@ -309,6 +330,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"learn",
+			"i",
+			"int ",
 			"i",
 			"3",
 			"2",
@@ -356,7 +380,7 @@
 		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
-		"whole_word": false,
+		"whole_word": true,
 		"wrap": true
 	},
 	"groups":
@@ -370,25 +394,53 @@
 					"file": "sources/main.ino",
 					"settings":
 					{
-						"buffer_size": 16877,
+						"buffer_size": 15331,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2482,
-								2482
+								7307,
+								7307
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/C++/C.tmLanguage",
+							"syntax": "Packages/Stino-master/Arduino.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 855.0,
+						"translation.y": 3090.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "sources/messages_midi.ino",
+					"settings":
+					{
+						"buffer_size": 5166,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								863,
+								863
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Stino-master/Arduino.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -396,8 +448,36 @@
 			]
 		},
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 2,
+					"file": "sources/menu.ino",
+					"settings":
+					{
+						"buffer_size": 1413,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								414,
+								414
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Stino-master/Arduino.tmLanguage",
+							"tab_size": 2
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],

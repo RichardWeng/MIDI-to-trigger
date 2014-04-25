@@ -91,7 +91,7 @@ Janvier 2014
       //Play/Stop : NC 
       //Div : facteur de division 
       //Clk : NC
-      int ParamSortie[16];
+      byte ParamSortie[16];
 
   }structParametres;
 
@@ -100,10 +100,10 @@ Janvier 2014
 //VARIABLES TEMPORELLES=======================================================
 
   //Taux de rafraichissement de l'affichage (en ms)
-  byte refreshAffichage = 10;
+  const byte refreshAffichage = 10;
 
   //Temps pour le debounging des boutons (en ms)
-  byte tempsDebounce = 20;
+  const byte tempsDebounce = 20;
 
   //Utilise pour la division de l'horloge midi
   byte compteurClock = 0;
@@ -121,7 +121,8 @@ Janvier 2014
   typedef struct{
     char nom[3];
     int id_parent;
-    int valeur;
+    byte valeur;
+    void (*fonction)(Boutons);
   }menuItem;
 
   //Nombre d'items dans le menu
@@ -133,7 +134,7 @@ Janvier 2014
   int menuCourant = -1;
 
   //Le menu actuellement affiche sur l'ecran
-  int menuAffiche = 0;
+  byte menuAffiche = 0;
 
 //AFFICHAGE===================================================================
   typedef struct{
@@ -173,8 +174,6 @@ Janvier 2014
   byte compteurNotesLearn = 0;
   //
 
-  byte i = 0;
-
 
 /*****************************************************************************
         INCLUDES
@@ -184,6 +183,7 @@ Janvier 2014
 #include "sorties.h"
 #include "messages_midi.h"
 #include "affichage.h"
+#include "menu.h"
 
 
 
@@ -198,7 +198,7 @@ Janvier 2014
     void verifier_delais() {
       unsigned long millisActuel = millis();
       //extinction des sorties
-      for(int compteur=0; compteur<16; compteur++){
+      for(byte compteur=0; compteur<16; compteur++){
           //si on a depasse le temps et que la sortie est en mode trigger et qu'elle est actuellement active :
           if((millisActuel - millisTriggers[compteur]) > parametres.DureeSortie[compteur] && parametres.ModeSortie[compteur] == Trigger && bitRead(etat_sorties, compteur) == 1){
               bitClear(etat_sorties, compteur); //on passe cette sortie en off
@@ -242,7 +242,12 @@ Janvier 2014
        
             //si le bouton est presse
             if(etat_bouton[compteur] == true) {
-              traitementBouton((Boutons) compteur);
+              if(menuCourant == -1){
+                menuStandard((Boutons) compteur);
+              }
+              else {
+                (*menu[menuCourant].fonction)((Boutons) compteur);
+              }
               strcpy(donneesAffichage, menu[menuAffiche].nom);
               creation_digits(donneesAffichage);
             }    
@@ -253,81 +258,7 @@ Janvier 2014
       }
     }
 
-  //TRAITEMENT BOUTON=========================================================
-
-    void traitementBouton(Boutons dernierBoutonPresse) {
-
-      switch (dernierBoutonPresse) {
-
-        case Echap:
-          Serial.println("Echap");
-          //Si on n'est pas a la racine
-          if(menuCourant > -1) {
-            menuCourant = menu[menuCourant].id_parent;
-            do {
-              menuAffiche++;
-              if(menuAffiche > nombreItems) {
-                menuAffiche = 0;
-              }
-            } while (menu[menuAffiche].id_parent != menuCourant);
-          }
-          // do something
-          break;
-          
-        case Gauche:
-          Serial.println("Gauche");
-          do {
-            if(menuAffiche == 0) {
-              menuAffiche = nombreItems;
-            }
-            menuAffiche--;
-          } while (menu[menuAffiche].id_parent != menuCourant);
-          break;
-
-        case Droite:
-          Serial.println("Droite");
-          do {
-            menuAffiche++;
-            if(menuAffiche > nombreItems) {
-              menuAffiche = 0;
-            }
-          } while (menu[menuAffiche].id_parent != menuCourant);
-          break;
-
-        case Entree:
-          Serial.println("Entree");
-
-          //Si le menu sur lequel on vient de cliquer possede des enfants
-          if(possedeDesEnfants(menuAffiche)) {
-            menuCourant = menuAffiche;
-            do {
-              menuAffiche++;
-              if(menuAffiche > nombreItems) {
-                menuAffiche = 0;
-              }
-            } while (menu[menuAffiche].id_parent != menuCourant);
-          }
-          // do something
-          break;
-        
-        default:
-          Serial.println("Erreur traitementBouton");
-      }
-
-    }
-
-  //MENUS=====================================================================
-
-    //Verifie si le menu teste possede des enfants
-    boolean possedeDesEnfants(byte menuTeste) {
-      boolean enfantsTrouves = false;
-      for(int i=0; i<nombreItems; i++){
-        if(menu[i].id_parent == menuTeste) {
-          enfantsTrouves = true;
-        }
-      }
-      return enfantsTrouves;
-    }
+    
 
 /*****************************************************************************
         SETUP
@@ -344,31 +275,37 @@ Janvier 2014
         strncpy(menu[id].nom, "di", 3);
         menu[id].id_parent = -1;
         menu[id].valeur = 24;  //1->96
+        menu[id].fonction = &(menuStandard);
       //Root note
         id = 1;
         strncpy(menu[id].nom, "no", 3);
         menu[id].id_parent = -1;
         menu[id].valeur = 0;
+        menu[id].fonction = &(menuStandard);
       //Canal
         id = 2;
         strncpy(menu[id].nom, "ch", 3);
         menu[id].id_parent = -1;
         menu[id].valeur = 0; //-1 = learn / 1->16
+        menu[id].fonction = &(menuStandard);
       //Start / Stop;
         id = 3;
         strncpy(menu[id].nom, "St", 3);
         menu[id].id_parent = -1;
         menu[id].valeur = 0; //0 = trig / 1 = gate
+        menu[id].fonction = &(menuStandard);
       //Start / Stop;
         id = 4;
         strncpy(menu[id].nom, "tr", 3);
         menu[id].id_parent = 3;
         menu[id].valeur = 0; //0 = trig / 1 = gate
+        menu[id].fonction = &(menuStandard);
       //Start / Stop;
         id = 5;
         strncpy(menu[id].nom, "gt", 3);
         menu[id].id_parent = 3;
         menu[id].valeur = 0; //0 = trig / 1 = gate
+        menu[id].fonction = &(menuStandard);
        
        
       /*enum menus {
@@ -488,19 +425,21 @@ Janvier 2014
     //DEBUG===================================================================
       
       parametres.CanalLearn = 1;
-      parametres.NotesLearn = Learn;
+      parametres.NotesLearn = Auto;
       
       parametres.ParamSortie[div_clock] = 24;
+      parametres.ParamSortie[accent] = 64;
 
-      for(int i=0; i<12; i++){
+      for(byte i=0; i<12; i++){
         parametres.ModeSortie[note[i]] = Gate;
       }
       parametres.ModeSortie[transport] = Trigger;
       
-      for(int i=0; i<16; i++){
+      for(byte i=0; i<16; i++){
         parametres.DureeSortie[i] = 20;
       }
       parametres.DureeSortie[sync_clock] = 0;
+      parametres.DureeSortie[accent] = 40;
 
       strcpy(donneesAffichage, menu[menuAffiche].nom);
       creation_digits(donneesAffichage);
@@ -511,6 +450,7 @@ Janvier 2014
         MAIN
 *****************************************************************************/
   void loop() {
+    static byte i = 0;
     midiBench.read();
     //On ne verifie les delais qu'une fois sur 10
     if(i >= 10) {
