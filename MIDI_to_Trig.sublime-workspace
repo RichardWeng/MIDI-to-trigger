@@ -231,16 +231,8 @@
 			"file": "sources/main.ino",
 			"settings":
 			{
-				"buffer_size": 15331,
+				"buffer_size": 15349,
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Documents and Settings/Laurent/Application Data/Sublime Text 2/Packages/User/Preferences.sublime-settings",
-			"settings":
-			{
-				"buffer_size": 112,
-				"line_ending": "Unix"
 			}
 		},
 		{
@@ -255,7 +247,7 @@
 			"file": "sources/menu.ino",
 			"settings":
 			{
-				"buffer_size": 1413,
+				"buffer_size": 1428,
 				"line_ending": "Windows"
 			}
 		}
@@ -304,6 +296,7 @@
 	},
 	"file_history":
 	[
+		"/C/Documents and Settings/Laurent/Application Data/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/menu.h",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/messages_midi.h",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/messages_midi.ino",
@@ -402,15 +395,15 @@
 					"file": "sources/main.ino",
 					"settings":
 					{
-						"buffer_size": 15331,
+						"buffer_size": 15349,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3518,
-								3518
+								688,
+								688
 							]
 						],
 						"settings":
@@ -420,39 +413,13 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1755.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/C/Documents and Settings/Laurent/Application Data/Sublime Text 2/Packages/User/Preferences.sublime-settings",
-					"settings":
-					{
-						"buffer_size": 112,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								98,
-								98
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage"
-						},
-						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 1,
 					"file": "sources/messages_midi.ino",
 					"settings":
 					{
@@ -480,19 +447,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 2,
 					"file": "sources/menu.ino",
 					"settings":
 					{
-						"buffer_size": 1413,
+						"buffer_size": 1428,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								414,
-								414
+								13,
+								13
 							]
 						],
 						"settings":
