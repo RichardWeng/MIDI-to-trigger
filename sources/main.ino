@@ -2,7 +2,10 @@
 MIDI to Trig
 Laurent Calvignac
 Janvier 2014
+
+blabliblou test
  
+
  * Ce programme est un programme libre ;
  * vous pouvez le redistribuer et/ou le modifier
  * dans les termes de la licence GNU GPL, comme publiée par
