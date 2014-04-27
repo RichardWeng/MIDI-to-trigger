@@ -15,7 +15,9 @@ Janvier 2014
  * (at your option) any later version.
  
 */
- 
+
+//testtest
+
 /*
  
   sorties 1 a 12 : triggers/gates
@@ -63,7 +65,7 @@ Janvier 2014
   enum Modes {Trigger, Gate};
   enum LearnModes {Off, Learn, Auto};
   enum Ports {Triggers, Affichage};
-  enum Boutons {Echap, Gauche, Droite, Entree};
+  enum Boutons {Echap, Gauche, Droite, Entree, Aucun};
 
 //PARAMETRES==================================================================
 
@@ -248,7 +250,7 @@ Janvier 2014
               else {
                 (*menu[menuCourant].fonction)((Boutons) compteur);
               }
-              strcpy(donneesAffichage, menu[menuAffiche].nom);
+              Serial.println(donneesAffichage);
               creation_digits(donneesAffichage);
             }    
           }      
@@ -287,7 +289,7 @@ Janvier 2014
         strncpy(menu[id].nom, "ch", 3);
         menu[id].id_parent = -1;
         menu[id].valeur = 0; //-1 = learn / 1->16
-        menu[id].fonction = &(menuStandard);
+        menu[id].fonction = &(choixCanal);
       //Start / Stop;
         id = 3;
         strncpy(menu[id].nom, "St", 3);

@@ -30,13 +30,14 @@ void menuParent() {
 void menuEnfant() {
 	Serial.println("Entree");
   //Si le menu sur lequel on vient de cliquer possede des enfants
-  if(possedeDesEnfants(menuAffiche)) {
+  //if(possedeDesEnfants(menuAffiche)) {
     menuCourant = menuAffiche;
-    menuSuivant();
-  }
+    (*menu[menuCourant].fonction)(Aucun);
+  //}
 }
 
 void menuStandard(Boutons dernierBoutonPresse) {
+
 	switch (dernierBoutonPresse) {
 
 	  case Echap:
@@ -54,10 +55,59 @@ void menuStandard(Boutons dernierBoutonPresse) {
 	  case Entree:
 	    menuEnfant();
 	    break;
+
+	  case Aucun:
+	  	menuSuivant();
+	  	break;
 	  
 	  default:
 	    Serial.println("Erreur traitementBouton");
 	}
+	strncpy(donneesAffichage, menu[menuAffiche].nom, 3);
+}
+
+void choixCanal(Boutons dernierBoutonPresse) {
+
+	switch (dernierBoutonPresse) {
+
+	  case Echap:
+	    menuParent();
+	    break;
+	    
+	  case Gauche:
+	  	if (parametres.Canal == 0) {
+	  		parametres.Canal = 17;
+	  	}
+	    parametres.Canal--;
+	    break;
+
+	  case Droite:
+	  	parametres.Canal++;
+	  	if (parametres.Canal > 16) {
+	  		parametres.Canal = 0;
+	  	}
+	    break;
+
+	  case Entree:
+	    //menuEnfant();
+	    break;
+
+	  case Aucun:
+	  Serial.println("Aucun");
+	  	break;
+	  
+	  default:
+	    Serial.println("Erreur traitementBouton");
+	}
+
+	if(parametres.Canal == 0) {
+		strncpy(donneesAffichage, "Ln", 3);
+	}
+	else {
+		sprintf(donneesAffichage, "%d", parametres.Canal);
+	}
+	Serial.println(donneesAffichage);
+
 }
 
 //Verifie si le menu teste possede des enfants
