@@ -231,15 +231,15 @@
 			"file": "sources/main.ino",
 			"settings":
 			{
-				"buffer_size": 15336,
+				"buffer_size": 15330,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "sources/messages_midi.ino",
+			"file": "/C/Documents and Settings/Laurent/Application Data/Sublime Text 2/Packages/User/SublimeGit.sublime-settings",
 			"settings":
 			{
-				"buffer_size": 5166,
+				"buffer_size": 1016,
 				"line_ending": "Windows"
 			}
 		},
@@ -255,9 +255,41 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 263.0,
+		"height": 189.0,
 		"selected_items":
 		[
+			[
+				"git: push ",
+				"Git: Push Current Branch"
+			],
+			[
+				"git: ",
+				"Git: Push"
+			],
+			[
+				"git: p",
+				"Git: Push"
+			],
+			[
+				"git:",
+				"Legit: Sync"
+			],
+			[
+				"Git: pu",
+				"Git: Push"
+			],
+			[
+				"Git: ",
+				"Git: Commit"
+			],
+			[
+				"git: v",
+				"Git: Version"
+			],
+			[
+				"git",
+				"Git: Commit"
+			],
 			[
 				"inst",
 				"Package Control: Install Package"
@@ -296,6 +328,12 @@
 	},
 	"file_history":
 	[
+		"/C/Documents and Settings/Laurent/.bashrc",
+		"/C/Documents and Settings/Laurent/.gitconfig",
+		"/C/Documents and Settings/Laurent/Application Data/Sublime Text 2/Packages/SublimeGit/SublimeGit.sublime-settings",
+		"/C/Documents and Settings/Laurent/Application Data/Sublime Text 2/Packages/User/SublimeGit.sublime-settings",
+		"/C/Documents and Settings/Laurent/.profile",
+		"/D/Laurent/DIY/Git/MIDI-to-trigger/sources/messages_midi.ino",
 		"/C/Documents and Settings/Laurent/Application Data/Sublime Text 2/Packages/User/Preferences.sublime-settings",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/menu.h",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/messages_midi.h",
@@ -387,7 +425,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -395,15 +433,15 @@
 					"file": "sources/main.ino",
 					"settings":
 					{
-						"buffer_size": 15336,
+						"buffer_size": 15330,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								53,
-								53
+								794,
+								794
 							]
 						],
 						"settings":
@@ -420,24 +458,24 @@
 				},
 				{
 					"buffer": 1,
-					"file": "sources/messages_midi.ino",
+					"file": "/C/Documents and Settings/Laurent/Application Data/Sublime Text 2/Packages/User/SublimeGit.sublime-settings",
 					"settings":
 					{
-						"buffer_size": 5166,
+						"buffer_size": 1016,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								863,
-								863
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Stino-master/Arduino.tmLanguage",
-							"tab_size": 2,
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -526,6 +564,14 @@
 	"output.MIDI_to_Trig_b1_0":
 	{
 		"height": 100.0
+	},
+	"output.git-push":
+	{
+		"height": 79.0
+	},
+	"output.legit-sync":
+	{
+		"height": 0.0
 	},
 	"output.sources":
 	{
