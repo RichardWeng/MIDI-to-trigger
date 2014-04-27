@@ -231,7 +231,7 @@
 			"file": "sources/main.ino",
 			"settings":
 			{
-				"buffer_size": 15349,
+				"buffer_size": 15336,
 				"line_ending": "Windows"
 			}
 		},
@@ -247,7 +247,7 @@
 			"file": "sources/menu.ino",
 			"settings":
 			{
-				"buffer_size": 1428,
+				"buffer_size": 1413,
 				"line_ending": "Windows"
 			}
 		}
@@ -395,15 +395,15 @@
 					"file": "sources/main.ino",
 					"settings":
 					{
-						"buffer_size": 15349,
+						"buffer_size": 15336,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								688,
-								688
+								53,
+								53
 							]
 						],
 						"settings":
@@ -451,15 +451,15 @@
 					"file": "sources/menu.ino",
 					"settings":
 					{
-						"buffer_size": 1428,
+						"buffer_size": 1413,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								13,
-								13
+								0,
+								0
 							]
 						],
 						"settings":
