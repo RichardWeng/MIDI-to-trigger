@@ -27,6 +27,8 @@
       
       //int nombre = strtol(caracteres,(char **)NULL,10);
 
+
+
       byte compteur = 0;
 
       for(byte i=0; i < 2; i++){
@@ -34,7 +36,13 @@
         while(caracteres[i] != tableauDigits[compteur].symbole) {
           compteur++;
         }
-        segmentsAffichage[i] = tableauDigits[compteur].segments;
+        //Si le premier caractere est un zero, on ne l'affiche pas
+        if(i == 0 && compteur == 0){
+          segmentsAffichage[i] = 0;
+        }
+        else {
+          segmentsAffichage[i] = tableauDigits[compteur].segments;
+        }
       }
       /*if((strtol(caracteres,(char **)NULL,10) < 10) && (strtol(caracteres,(char **)NULL,10) > 0)) {
         donneesAffichage[0] = 0;

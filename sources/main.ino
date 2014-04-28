@@ -253,7 +253,6 @@ Janvier 2014
               else {
                 (*menu[menuCourant].fonction)((Boutons) compteur);
               }
-              Serial.println(donneesAffichage);
               creation_digits(donneesAffichage);
             }    
           }      

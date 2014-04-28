@@ -109,9 +109,13 @@ void choixCanal(Boutons dernierBoutonPresse) {
 			strncpy(donneesAffichage, "Ln", 3);
 		}
 		else {
-			sprintf(donneesAffichage, "%d", parametres.Canal);
+			//dizaines
+			donneesAffichage[0] = tableauDigits[parametres.Canal / 10 % 10].symbole;
+			//unites
+			donneesAffichage[1] = tableauDigits[parametres.Canal % 10].symbole;
+			//sprintf(donneesAffichage, "%d", parametres.Canal);
 		}
-		Serial.println(donneesAffichage);
+		//Serial.println(donneesAffichage);
 	}
 
 }

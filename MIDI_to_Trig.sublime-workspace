@@ -231,7 +231,7 @@
 			"file": "sources/main.ino",
 			"settings":
 			{
-				"buffer_size": 15341,
+				"buffer_size": 15403,
 				"line_ending": "Windows"
 			}
 		},
@@ -247,7 +247,32 @@
 			"file": "sources/menu.ino",
 			"settings":
 			{
-				"buffer_size": 1413,
+				"buffer_size": 2539,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Arduino Ready\n11111111111111111111111110011101\nSuivant\nno\n11111111111111111111111110000101\nSuivant\nch\n11111111111111111111111110001001\nEntree\nAucun\nLn\nLn\n1001001\n1\n1\n10100\nArduino Ready\n11111111111111111111111110011101\nSuivant\nno\n11111111111111111111111110000101\nSuivant\nch\n11111111111111111111111110001001\nEntree\nAucun\nLn\nLn\n1001001\n1\n1\n10100\nMenu parent\nch\n11111111111111111111111110001001\nArduino Ready\n10011101\nSuivant\nno\n10000101\nSuivant\nch\n10001001\nSuivant\nSt\n11101100\nSuivant\ndi\n10011101\nSuivant\nno\n10000101\nSuivant\nch\n10001001\nEntree\nAucun\nLn\nLn\n1001001\n1\n1\n10100\n2\n2\n10111001\n3\n3\n10111100\n4\n4\n11010100\n5\n5\n11101100\n4\n4\n11010100\n3\n3\n10111100\n2\n2\n10111001\n1\n1\n10100\nLn\nLn\n1001001\n1\n1\n10100\n",
+			"settings":
+			{
+				"buffer_size": 790,
+				"line_ending": "Windows",
+				"name": "Serial Monitor - COM17"
+			}
+		},
+		{
+			"file": "sources/affichage.ino",
+			"settings":
+			{
+				"buffer_size": 1633,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "sources/sorties.ino",
+			"settings":
+			{
+				"buffer_size": 786,
 				"line_ending": "Windows"
 			}
 		}
@@ -255,9 +280,21 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 152.0,
+		"height": 400.0,
 		"selected_items":
 		[
+			[
+				"Package Control: ",
+				"Package Control: Disable Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"git pus",
+				"Git: Push Current Branch"
+			],
 			[
 				"git push",
 				"Git: Push Current Branch"
@@ -265,10 +302,6 @@
 			[
 				"git ",
 				"Git: Commit"
-			],
-			[
-				"install",
-				"Package Control: Install Package"
 			],
 			[
 				"inst",
@@ -402,15 +435,15 @@
 					"file": "sources/main.ino",
 					"settings":
 					{
-						"buffer_size": 15341,
+						"buffer_size": 15403,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								582,
-								582
+								4014,
+								4014
 							]
 						],
 						"settings":
@@ -420,7 +453,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1755.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -456,7 +489,7 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -464,21 +497,102 @@
 					"file": "sources/menu.ino",
 					"settings":
 					{
-						"buffer_size": 1413,
+						"buffer_size": 2539,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								414,
-								414
+								2266,
+								2266
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Stino-master/Arduino.tmLanguage",
 							"tab_size": 2
+						},
+						"translation.x": 0.0,
+						"translation.y": 810.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"settings":
+					{
+						"buffer_size": 790,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								86,
+								95
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 507.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "sources/affichage.ino",
+					"settings":
+					{
+						"buffer_size": 1633,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								468,
+								468
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Stino-master/Arduino.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "sources/sorties.ino",
+					"settings":
+					{
+						"buffer_size": 786,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Stino-master/Arduino.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
