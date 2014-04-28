@@ -150,6 +150,9 @@ Janvier 2014
   //donnees a afficher sur les digits
   char donneesAffichage[2];
 
+  //conversion de ces donnees en segments
+  byte segmentsAffichage[2];
+
 //SORTIES=====================================================================
   
   //Definit l'etat des sorties trigger/gate

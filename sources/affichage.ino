@@ -9,7 +9,7 @@
       boolean lecture = digitalRead(affichage_digit[0]);
       pin_digitActif = affichage_digit[lecture];
       pin_digitInactif = affichage_digit[!lecture];
-      donnees = donneesAffichage[lecture];
+      donnees = segmentsAffichage[lecture];
    
       digitalWrite(pin_digitInactif, LOW);  //desactivation du digit precedent
       seriOut(Affichage, donnees);  //transmission des donnees sur le port AFFICHAGE
@@ -25,6 +25,8 @@
       //tableau des digits pour en deduire le numero du digit a afficher.
       //Penser a afficher du vide devant lorsqu'il n'y a qu'un seul digit.
       
+      //int nombre = strtol(caracteres,(char **)NULL,10);
+
       byte compteur = 0;
 
       for(byte i=0; i < 2; i++){
@@ -32,6 +34,10 @@
         while(caracteres[i] != tableauDigits[compteur].symbole) {
           compteur++;
         }
-        donneesAffichage[i] = tableauDigits[compteur].segments;
-      }    
+        segmentsAffichage[i] = tableauDigits[compteur].segments;
+      }
+      /*if((strtol(caracteres,(char **)NULL,10) < 10) && (strtol(caracteres,(char **)NULL,10) > 0)) {
+        donneesAffichage[0] = 0;
+      }*/
+      Serial.println(segmentsAffichage[0], BIN);
     }

@@ -42,14 +42,17 @@ void menuStandard(Boutons dernierBoutonPresse) {
 
 	  case Echap:
 	    menuParent();
+	    strncpy(donneesAffichage, menu[menuAffiche].nom, 3);
 	    break;
 	    
 	  case Gauche:
 	    menuPrecedent();
+	    strncpy(donneesAffichage, menu[menuAffiche].nom, 3);
 	    break;
 
 	  case Droite:
 	  	menuSuivant();
+	  	strncpy(donneesAffichage, menu[menuAffiche].nom, 3);
 	    break;
 
 	  case Entree:
@@ -58,12 +61,12 @@ void menuStandard(Boutons dernierBoutonPresse) {
 
 	  case Aucun:
 	  	menuSuivant();
+	  	strncpy(donneesAffichage, menu[menuAffiche].nom, 3);
 	  	break;
 	  
 	  default:
 	    Serial.println("Erreur traitementBouton");
 	}
-	strncpy(donneesAffichage, menu[menuAffiche].nom, 3);
 }
 
 void choixCanal(Boutons dernierBoutonPresse) {
@@ -72,6 +75,7 @@ void choixCanal(Boutons dernierBoutonPresse) {
 
 	  case Echap:
 	    menuParent();
+	    strncpy(donneesAffichage, menu[menuAffiche].nom, 3);
 	    break;
 	    
 	  case Gauche:
@@ -100,13 +104,15 @@ void choixCanal(Boutons dernierBoutonPresse) {
 	    Serial.println("Erreur traitementBouton");
 	}
 
-	if(parametres.Canal == 0) {
-		strncpy(donneesAffichage, "Ln", 3);
+	if(dernierBoutonPresse != Echap) {
+		if(parametres.Canal == 0) {
+			strncpy(donneesAffichage, "Ln", 3);
+		}
+		else {
+			sprintf(donneesAffichage, "%d", parametres.Canal);
+		}
+		Serial.println(donneesAffichage);
 	}
-	else {
-		sprintf(donneesAffichage, "%d", parametres.Canal);
-	}
-	Serial.println(donneesAffichage);
 
 }
 
