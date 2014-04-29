@@ -69,6 +69,52 @@ void menuStandard(Boutons dernierBoutonPresse) {
 	}
 }
 
+void divisionHorloge(Boutons dernierBoutonPresse) {
+
+	switch (dernierBoutonPresse) {
+
+	  case Echap:
+	    menuParent();
+	    strncpy(donneesAffichage, menu[menuAffiche].nom, 3);
+	    break;
+	    
+	  case Gauche:
+	  	if (parametres.Canal == 0) {
+	  		parametres.Canal = 17;
+	  	}
+	    parametres.Canal--;
+	    break;
+
+	  case Droite:
+	  	parametres.Canal++;
+	  	if (parametres.Canal > 16) {
+	  		parametres.Canal = 0;
+	  	}
+	    break;
+
+	  case Entree:
+	    //menuEnfant();
+	    break;
+
+	  case Aucun:
+	  Serial.println("Aucun");
+	  	break;
+	  
+	  default:
+	    Serial.println("Erreur traitementBouton");
+	}
+
+	if(dernierBoutonPresse != Echap) {
+		if(parametres.Canal == 0) {
+			strncpy(donneesAffichage, "Ln", 3);
+		}
+		else {
+			afficherChiffres(parametres.Canal);
+		}
+	}
+
+}
+
 void choixCanal(Boutons dernierBoutonPresse) {
 
 	switch (dernierBoutonPresse) {
@@ -109,13 +155,8 @@ void choixCanal(Boutons dernierBoutonPresse) {
 			strncpy(donneesAffichage, "Ln", 3);
 		}
 		else {
-			//dizaines
-			donneesAffichage[0] = tableauDigits[parametres.Canal / 10 % 10].symbole;
-			//unites
-			donneesAffichage[1] = tableauDigits[parametres.Canal % 10].symbole;
-			//sprintf(donneesAffichage, "%d", parametres.Canal);
+			afficherChiffres(parametres.Canal);
 		}
-		//Serial.println(donneesAffichage);
 	}
 
 }
@@ -129,4 +170,11 @@ boolean possedeDesEnfants(byte menuTeste) {
     }
   }
   return enfantsTrouves;
+}
+
+void afficherChiffres(byte nombre) {
+	//dizaines
+	donneesAffichage[0] = tableauDigits[nombre / 10 % 10].symbole;
+	//unites
+	donneesAffichage[1] = tableauDigits[nombre % 10].symbole;
 }
