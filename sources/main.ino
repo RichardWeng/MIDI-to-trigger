@@ -66,6 +66,7 @@ Janvier 2014
   enum LearnModes {Off, Learn, Auto};
   enum Ports {Triggers, Affichage};
   enum Boutons {Echap, Gauche, Droite, Entree, Aucun};
+  enum Operation {AUGMENTER, REDUIRE};
 
 //PARAMETRES==================================================================
 
@@ -292,22 +293,28 @@ Janvier 2014
         menu[id].id_parent = -1;
         menu[id].valeur = 0; //-1 = learn / 1->16
         menu[id].fonction = &(choixCanal);
-      //Start / Stop;
+      //Start / Stop
         id = 3;
         strncpy(menu[id].nom, "St", 3);
         menu[id].id_parent = -1;
         menu[id].valeur = 0; //0 = trig / 1 = gate
         menu[id].fonction = &(menuStandard);
-      //Start / Stop;
+      //Sorties
         id = 4;
-        strncpy(menu[id].nom, "tr", 3);
-        menu[id].id_parent = 3;
+        strncpy(menu[id].nom, "ot", 3);
+        menu[id].id_parent = -1;
         menu[id].valeur = 0; //0 = trig / 1 = gate
         menu[id].fonction = &(menuStandard);
-      //Start / Stop;
+      //Accent
         id = 5;
-        strncpy(menu[id].nom, "gt", 3);
-        menu[id].id_parent = 3;
+        strncpy(menu[id].nom, "ac", 3);
+        menu[id].id_parent = -1;
+        menu[id].valeur = 0; //0 = trig / 1 = gate
+        menu[id].fonction = &(menuStandard);
+      //Learn
+        id = 6;
+        strncpy(menu[id].nom, "Ln", 3);
+        menu[id].id_parent = -1;
         menu[id].valeur = 0; //0 = trig / 1 = gate
         menu[id].fonction = &(menuStandard);
        
