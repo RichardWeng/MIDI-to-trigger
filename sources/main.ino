@@ -139,6 +139,9 @@ Janvier 2014
   //Le menu actuellement affiche sur l'ecran
   byte menuAffiche = 0;
 
+  //Valeur du parametre en cours d'edition
+  byte bufferParametre = 0;
+
 //AFFICHAGE===================================================================
   typedef struct{
     byte segments;
@@ -254,7 +257,6 @@ Janvier 2014
               else {
                 (*menu[menuCourant].fonction)((Boutons) compteur);
               }
-              creation_digits(donneesAffichage);
             }    
           }      
         }
