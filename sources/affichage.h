@@ -5,5 +5,3 @@
   //CREATION DIGITS===========================================================
  
     void creation_digits(const char* caracteres);
-
-    void ajoutPointDecimal();
