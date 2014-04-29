@@ -67,6 +67,7 @@ void menuStandard(Boutons dernierBoutonPresse) {
 	  default:
 	    Serial.println("Erreur traitementBouton");
 	}
+	creation_digits(donneesAffichage);
 }
 
 void divisionHorloge(Boutons dernierBoutonPresse) {
@@ -120,43 +121,48 @@ void choixCanal(Boutons dernierBoutonPresse) {
 	switch (dernierBoutonPresse) {
 
 	  case Echap:
+	  	//On se place dans le menu parent
 	    menuParent();
+	    //On affiche le nom du menu dans lequel on etait
 	    strncpy(donneesAffichage, menu[menuAffiche].nom, 3);
+	    //Et on sort de la
+	    return;
 	    break;
 	    
 	  case Gauche:
-	  	if (parametres.Canal == 0) {
-	  		parametres.Canal = 17;
-	  	}
-	    parametres.Canal--;
+	  	bufferParametre = changerValeur(REDUIRE, parametres.Canal, 0, 16);
 	    break;
 
 	  case Droite:
-	  	parametres.Canal++;
-	  	if (parametres.Canal > 16) {
-	  		parametres.Canal = 0;
-	  	}
+	  	bufferParametre = changerValeur(AUGMENTER, parametres.Canal, 0, 16);
 	    break;
 
 	  case Entree:
-	    //menuEnfant();
+	  	//On enregistre la valeur actuelle du buffer
+	    parametres.Canal = bufferParametre;
 	    break;
 
 	  case Aucun:
-	  Serial.println("Aucun");
+	  	//Si on vient d'entrer dans ce menu
+	  	Serial.println("Aucun");
+	  	bufferParametre = parametres.Canal;
 	  	break;
 	  
 	  default:
 	    Serial.println("Erreur traitementBouton");
 	}
 
-	if(dernierBoutonPresse != Echap) {
-		if(parametres.Canal == 0) {
-			strncpy(donneesAffichage, "Ln", 3);
-		}
-		else {
-			afficherChiffres(parametres.Canal);
-		}
+	if(bufferParametre == 0) {
+		strncpy(donneesAffichage, "Ln", 3);
+	}
+	else {
+		afficherChiffres(bufferParametre);
+	}
+	creation_digits(donneesAffichage);
+	//Si le buffer est different de la valeur enregistree
+	if(bufferParametre != parametres.Canal) {
+		//On le signifie au moyen du point decimal des unites
+		ajoutPointDecimal();
 	}
 
 }
@@ -179,18 +185,18 @@ void afficherChiffres(byte nombre) {
 	donneesAffichage[1] = tableauDigits[nombre % 10].symbole;
 }
 
-void changerValeur(Operation operation, byte variable, byte minimum, byte maximum) {
+byte changerValeur(Operation operation, byte variable, byte minimum, byte maximum) {
 	
 	switch (operation) {
 	    
-	    case AUGMENTER :
+	    case AUGMENTER:
 	      variable++;
 	  		if (variable > maximum) {
 	  			variable = minimum;
 	  		}
 	      break;
 
-	    case REDUIRE :
+	    case REDUIRE:
 	      if (variable == minimum) {
 	  			variable = maximum + 1;
 	  		}
@@ -198,6 +204,7 @@ void changerValeur(Operation operation, byte variable, byte minimum, byte maximu
 	      break;
 	    
 	    default:
-	      // do something
+	      Serial.println("Erreur changerValeur");
 	}
+	return variable;
 }
