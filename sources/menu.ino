@@ -79,16 +79,16 @@ void divisionHorloge(Boutons dernierBoutonPresse) {
 	    break;
 	    
 	  case Gauche:
-	  	if (parametres.ParamSortie[div_clock] == 1) {
-	  		parametres.ParamSortie[div_clock] = 97;
+	  	if (parametres.Canal == 0) {
+	  		parametres.Canal = 17;
 	  	}
-	    parametres.ParamSortie[div_clock]--;
+	    parametres.Canal--;
 	    break;
 
 	  case Droite:
-	  	parametres.ParamSortie[div_clock]++;
-	  	if (parametres.ParamSortie[div_clock] > 96) {
-	  		parametres.ParamSortie[div_clock] = 1;
+	  	parametres.Canal++;
+	  	if (parametres.Canal > 16) {
+	  		parametres.Canal = 0;
 	  	}
 	    break;
 
@@ -105,11 +105,11 @@ void divisionHorloge(Boutons dernierBoutonPresse) {
 	}
 
 	if(dernierBoutonPresse != Echap) {
-		if(parametres.ParamSortie[div_clock] == 0) {
+		if(parametres.Canal == 0) {
 			strncpy(donneesAffichage, "Ln", 3);
 		}
 		else {
-			afficherChiffres(parametres.ParamSortie[div_clock]);
+			afficherChiffres(parametres.Canal);
 		}
 	}
 
@@ -177,27 +177,4 @@ void afficherChiffres(byte nombre) {
 	donneesAffichage[0] = tableauDigits[nombre / 10 % 10].symbole;
 	//unites
 	donneesAffichage[1] = tableauDigits[nombre % 10].symbole;
-}
-
-void changerValeur(Operation operation, byte variable, byte minimum, byte maximum) {
-	
-	switch (operation) {
-	    
-	    case AUGMENTER :
-	      variable++;
-	  		if (variable > maximum) {
-	  			variable = minimum;
-	  		}
-	      break;
-
-	    case REDUIRE :
-	      if (variable == minimum) {
-	  			variable = maximum + 1;
-	  		}
-	    	variable--;
-	      break;
-	    
-	    default:
-	      // do something
-	}
 }
