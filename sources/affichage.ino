@@ -44,8 +44,8 @@
           segmentsAffichage[i] = tableauDigits[compteur].segments;
         }
       }
-    }
-
-    void ajoutPointDecimal() {
-      segmentsAffichage[1] = segmentsAffichage[1] & tableauDigits[36].segments;
+      /*if((strtol(caracteres,(char **)NULL,10) < 10) && (strtol(caracteres,(char **)NULL,10) > 0)) {
+        donneesAffichage[0] = 0;
+      }*/
+      Serial.println(segmentsAffichage[0], BIN);
     }
