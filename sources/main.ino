@@ -279,7 +279,7 @@ Janvier 2014
         strncpy(menu[id].nom, "di", 3);
         menu[id].id_parent = -1;
         menu[id].valeur = 24;  //1->96
-        menu[id].fonction = &(menuStandard);
+        menu[id].fonction = &(divisionHorloge);
       //Root note
         id = 1;
         strncpy(menu[id].nom, "no", 3);
