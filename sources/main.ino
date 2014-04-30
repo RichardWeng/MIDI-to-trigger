@@ -129,7 +129,7 @@ Janvier 2014
   }menuItem;
 
   //Nombre d'items dans le menu
-  const byte nombreItems = 6;
+  const byte nombreItems = 7;
 
   menuItem menu[nombreItems];
 
@@ -279,43 +279,43 @@ Janvier 2014
 
       //Clock division
         id = 0;
-        strncpy(menu[id].nom, "di", 3);
+        strncpy(menu[id].nom, "di", 2);
         menu[id].id_parent = -1;
         menu[id].valeur = 24;  //1->96
         menu[id].fonction = &(divisionHorloge);
       //Root note
         id = 1;
-        strncpy(menu[id].nom, "no", 3);
+        strncpy(menu[id].nom, "no", 2);
         menu[id].id_parent = -1;
         menu[id].valeur = 0;
         menu[id].fonction = &(menuStandard);
       //Canal
         id = 2;
-        strncpy(menu[id].nom, "ch", 3);
+        strncpy(menu[id].nom, "ch", 2);
         menu[id].id_parent = -1;
         menu[id].valeur = 0; //-1 = learn / 1->16
         menu[id].fonction = &(choixCanal);
       //Start / Stop
         id = 3;
-        strncpy(menu[id].nom, "St", 3);
+        strncpy(menu[id].nom, "St", 2);
         menu[id].id_parent = -1;
         menu[id].valeur = 0; //0 = trig / 1 = gate
         menu[id].fonction = &(menuStandard);
       //Sorties
         id = 4;
-        strncpy(menu[id].nom, "ot", 3);
+        strncpy(menu[id].nom, "ot", 2);
         menu[id].id_parent = -1;
         menu[id].valeur = 0; //0 = trig / 1 = gate
         menu[id].fonction = &(menuStandard);
       //Accent
         id = 5;
-        strncpy(menu[id].nom, "ac", 3);
+        strncpy(menu[id].nom, "ac", 2);
         menu[id].id_parent = -1;
         menu[id].valeur = 0; //0 = trig / 1 = gate
         menu[id].fonction = &(menuStandard);
       //Learn
         id = 6;
-        strncpy(menu[id].nom, "Ln", 3);
+        strncpy(menu[id].nom, "Ln", 2);
         menu[id].id_parent = -1;
         menu[id].valeur = 0; //0 = trig / 1 = gate
         menu[id].fonction = &(menuStandard);

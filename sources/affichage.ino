@@ -47,5 +47,5 @@
     }
 
     void ajoutPointDecimal() {
-      segmentsAffichage[1] = segmentsAffichage[1] & tableauDigits[36].segments;
+      segmentsAffichage[1] = segmentsAffichage[1] | tableauDigits[36].segments;
     }
