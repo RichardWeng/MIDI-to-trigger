@@ -123,10 +123,10 @@ void choixCanal(Boutons dernierBoutonPresse) {
 	  case Echap:
 	  	//On se place dans le menu parent
 	    menuParent();
-	    Serial.println(donneesAffichage);
 	    //On affiche le nom du menu dans lequel on etait
 	    strncpy(donneesAffichage, menu[menuAffiche].nom, 3);
 	    Serial.println(donneesAffichage);
+	    creation_digits(donneesAffichage);
 	    //Et on sort de la
 	    return;
 	    break;
@@ -142,6 +142,7 @@ void choixCanal(Boutons dernierBoutonPresse) {
 	  case Entree:
 	  	//On enregistre la valeur actuelle du buffer
 	    parametres.Canal = bufferParametre;
+	    Serial.println("Ok");
 	    break;
 
 	  case Aucun:

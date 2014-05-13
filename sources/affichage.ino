@@ -27,8 +27,6 @@
       
       //int nombre = strtol(caracteres,(char **)NULL,10);
 
-
-
       byte compteur = 0;
 
       for(byte i=0; i < 2; i++){

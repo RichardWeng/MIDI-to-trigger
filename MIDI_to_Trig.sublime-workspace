@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"m",
+				"maximum"
+			],
+			[
+				"mi",
+				"minimum"
+			],
+			[
+				"sw",
+				"switch	Arduino switch"
+			],
+			[
 				"menu",
 				"menuCourant"
 			],
@@ -231,40 +243,48 @@
 			"file": "sources/main.ino",
 			"settings":
 			{
-				"buffer_size": 15403,
+				"buffer_size": 15607,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "sources/messages_midi.ino",
+			"contents": "",
 			"settings":
 			{
-				"buffer_size": 5166,
-				"line_ending": "Windows"
+				"buffer_size": 0,
+				"line_ending": "Windows",
+				"name": "Serial Monitor - COM17"
 			}
 		},
 		{
 			"file": "sources/menu.ino",
 			"settings":
 			{
-				"buffer_size": 2539,
+				"buffer_size": 4583,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "Arduino Ready\n11111111111111111111111110011101\nSuivant\nno\n11111111111111111111111110000101\nSuivant\nch\n11111111111111111111111110001001\nEntree\nAucun\nLn\nLn\n1001001\n1\n1\n10100\nArduino Ready\n11111111111111111111111110011101\nSuivant\nno\n11111111111111111111111110000101\nSuivant\nch\n11111111111111111111111110001001\nEntree\nAucun\nLn\nLn\n1001001\n1\n1\n10100\nMenu parent\nch\n11111111111111111111111110001001\nArduino Ready\n10011101\nSuivant\nno\n10000101\nSuivant\nch\n10001001\nSuivant\nSt\n11101100\nSuivant\ndi\n10011101\nSuivant\nno\n10000101\nSuivant\nch\n10001001\nEntree\nAucun\nLn\nLn\n1001001\n1\n1\n10100\n2\n2\n10111001\n3\n3\n10111100\n4\n4\n11010100\n5\n5\n11101100\n4\n4\n11010100\n3\n3\n10111100\n2\n2\n10111001\n1\n1\n10100\nLn\nLn\n1001001\n1\n1\n10100\n",
+			"file": "sources/menu.h",
 			"settings":
 			{
-				"buffer_size": 790,
-				"line_ending": "Windows",
-				"name": "Serial Monitor - COM17"
+				"buffer_size": 444,
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "sources/affichage.ino",
 			"settings":
 			{
-				"buffer_size": 1633,
+				"buffer_size": 1735,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "sources/affichage.h",
+			"settings":
+			{
+				"buffer_size": 264,
 				"line_ending": "Windows"
 			}
 		},
@@ -337,9 +357,9 @@
 	},
 	"file_history":
 	[
+		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/messages_midi.ino",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/menu.h",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/messages_midi.h",
-		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/messages_midi.ino",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/sorties.ino",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/affichage.ino",
 		"/D/Laurent/Mes Documents/GitHub/MIDI-to-trigger/sources/affichage.h",
@@ -371,6 +391,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"Serial",
+			"6",
+			"changerValeur",
+			"changer",
 			"learn",
 			"i",
 			"int ",
@@ -435,15 +459,15 @@
 					"file": "sources/main.ino",
 					"settings":
 					{
-						"buffer_size": 15403,
+						"buffer_size": 15607,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4014,
-								4014
+								7359,
+								7359
 							]
 						],
 						"settings":
@@ -453,32 +477,29 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1755.0,
+						"translation.y": 3047.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "sources/messages_midi.ino",
 					"settings":
 					{
-						"buffer_size": 5166,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								863,
-								863
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Stino-master/Arduino.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -489,7 +510,7 @@
 			]
 		},
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -497,49 +518,51 @@
 					"file": "sources/menu.ino",
 					"settings":
 					{
-						"buffer_size": 2539,
+						"buffer_size": 4583,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2266,
-								2266
+								2115,
+								2091
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Stino-master/Arduino.tmLanguage",
-							"tab_size": 2
+							"tab_size": 2,
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 810.0,
+						"translation.y": 1433.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
+					"file": "sources/menu.h",
 					"settings":
 					{
-						"buffer_size": 790,
+						"buffer_size": 444,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								86,
-								95
+								19,
+								19
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/C++/C++.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 507.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -549,15 +572,15 @@
 					"file": "sources/affichage.ino",
 					"settings":
 					{
-						"buffer_size": 1633,
+						"buffer_size": 1735,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								468,
-								468
+								1180,
+								1180
 							]
 						],
 						"settings":
@@ -574,6 +597,32 @@
 				},
 				{
 					"buffer": 5,
+					"file": "sources/affichage.h",
+					"settings":
+					{
+						"buffer_size": 264,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								239,
+								239
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
 					"file": "sources/sorties.ino",
 					"settings":
 					{
@@ -584,8 +633,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								786,
+								786
 							]
 						],
 						"settings":
